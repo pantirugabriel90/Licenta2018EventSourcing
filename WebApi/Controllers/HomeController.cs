@@ -33,5 +33,30 @@ namespace WebApi.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult TaskList()
+        {
+            ViewData["Message"] = "Your task list page.";
+            var result = new List<Task> {
+               new Task {
+                    title= "study entity framework",content=".net",details="understand code first and database first"
+
+                },
+              new Task {
+                    title= "study IpSec",content="Information Security",details="Understand what problems IpSec resolves and how"
+
+                },
+
+            };
+
+            return View(result);
+        }
+    }
+
+    public class Task
+    {
+        public string title { get; set; }
+        public string content { get; set; }
+        public string details { get; set; }
     }
 }
