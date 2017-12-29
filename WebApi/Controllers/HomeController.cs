@@ -5,14 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
+using Domain;
 
 namespace WebApi.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async System.Threading.Tasks.Task Index()
         {
-            return View();
+            SqlEventStore eventStore = new SqlEventStore("Data Source=DESKTOP-P6BH1QB\\SQLEXPRESS;Initial Catalog=Licenta2018;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            var result =await eventStore.Get(Guid.Parse("bad279dd-4933-45af-a75b-3267747e83e8"), -1);
+            var x = 5;
         }
 
         public IActionResult About()
