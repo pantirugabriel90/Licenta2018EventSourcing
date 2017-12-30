@@ -8,11 +8,17 @@ using WebApi.Models;
 using Domain;
 using Domain.Events;
 using CQRSlite.Events;
+using CQRSlite.Domain;
 
 namespace WebApi.Controllers
 {
     public class HomeController : Controller
     {
+        private ISession _session { get; set; }
+        public HomeController(ISession session)
+        {
+            _session = session;
+        }
         public IActionResult Index()
         {
             return View();
@@ -22,7 +28,7 @@ namespace WebApi.Controllers
             IEventStore eventStore = new SqlEventStore("Data Source=DESKTOP-P6BH1QB\\SQLEXPRESS;Initial Catalog=Licenta2018;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             //var result =await eventStore.Get(Guid.Parse("bad279dd-4933-45af-a75b-3267747e83e8"), -1);
             //var x = 5;
-            var ev = new TopicCreatedEvent(Guid.Parse("bcd279dd-4933-45af-a75b-3267747e83e8"), typeof(Topic), "Gabi","","",DateTime.Now,null);
+            var ev = new TopicCreatedEvent(Guid.Parse("bcd279dd-4933-45af-a75b-3267747e83e8"), typeof(Topic), "Gabi","","",DateTime.Now);
             List<IEvent> eventList = new List<IEvent>();
             eventList.Add(ev);
             eventStore.Save<Topic>(eventList);

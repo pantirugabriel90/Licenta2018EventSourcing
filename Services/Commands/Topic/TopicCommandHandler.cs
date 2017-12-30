@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Commands.Topic
 {
-    class TopicCommandHandler : ICommandHandler<TopicCreatedCommand>,ICommandHandler<TopicUpdatedCommand>
+    class TopicCommandHandler : ICommandHandler<TopicCreatedCommand>,ICommandHandler<TopicUpdatedCommand>, ICommandHandler<NewReplyCommand>, ICommandHandler<ReplyUpdatedCommand>
     {
         private readonly ISession _session;
 
@@ -17,14 +17,30 @@ namespace Services.Commands.Topic
         }
         public async System.Threading.Tasks.Task Handle(TopicCreatedCommand command)
         {
-            var topic = new Domain.Topic(command.AggregateId,command.Title,command.Content,command.Date,command.Replies,command.IssuedBy);
+            var topic = new Domain.Topic(command.AggregateId, command.Title, command.Content, command.Date, command.IssuedBy);
             await _session.Add(topic);
             await _session.Commit();
         }
 
         public async System.Threading.Tasks.Task Handle(TopicUpdatedCommand command)
         {
-            throw new NotImplementedException();
+            var topic = await _session.Get<Domain.Topic>(command.AggregateId);
+            topic.UpdateMainTopic(command.AggregateId, command.Title, command.Content, command.UpdateDate, command.IssuedBy);
+            await _session.Commit();
+        }
+
+        public async System.Threading.Tasks.Task Handle(ReplyUpdatedCommand command)
+        {
+            var topic = await _session.Get<Domain.Topic>(command.AggregateId);
+            topic.UpdateReply(command.AggregateId, command.Content, command.Date, command.IssuedBy, command.ReplyId);
+            await _session.Commit();
+        }
+
+        public async System.Threading.Tasks.Task Handle(NewReplyCommand command)
+        {
+            var topic = await _session.Get<Domain.Topic>(command.AggregateId);
+            topic.AddNewReply(command.AggregateId,command.Content,command.Date,command.IssuedBy,command.ReplyId);
+            await _session.Commit();
         }
     }
 }

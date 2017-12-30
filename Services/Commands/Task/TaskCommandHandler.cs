@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.Commands.Task
 {
-    public class TaskCommandHandler : ICommandHandler<TaskCreatedCommand> , ICommandHandler<TaskUpdatedCommand>
+    public class TaskCommandHandler : ICommandHandler<TaskCreatedCommand> , ICommandHandler<TaskUpdatedCommand>, ICommandHandler<TaskCompletedCommand>
     {
         private readonly ISession _session;
 
@@ -23,9 +23,18 @@ namespace Services.Commands.Task
             await _session.Commit();
         }
 
-        public System.Threading.Tasks.Task Handle(TaskUpdatedCommand command)
+        public async System.Threading.Tasks.Task Handle(TaskUpdatedCommand command)
         {
-            throw new NotImplementedException();
+            var task = await _session.Get<Domain.Task>(command.AggregateId);
+            task.UpdateTaskDetails(command.AggregateId, command.IssuedBy, command.Title, command.Description, command.Tags, command.Hours, command.UpdateDate);
+            await _session.Commit();
+        }
+
+        public async System.Threading.Tasks.Task Handle(TaskCompletedCommand command)
+        {
+            var task = await _session.Get<Domain.Task>(command.AggregateId);
+            task.CompleteTask(command.AggregateId,command.Completed,command.IssuedBy);
+            await _session.Commit();
         }
     }
 }

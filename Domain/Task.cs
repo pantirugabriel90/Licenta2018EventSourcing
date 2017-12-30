@@ -15,5 +15,14 @@ namespace Domain
             ApplyChange(new TaskCreatedEvent(aggregateId,GetType(),issuedBy,title,content,tags,hours,date));
         }
 
+        public void UpdateTaskDetails(Guid aggregateId, string issuedBy, string title, string description, List<string> tags, double hours, DateTime updateDate) {
+            ApplyChange(new TaskUpdatedEvent(aggregateId,GetType(),issuedBy,title,description,tags,hours,updateDate));
+        }
+
+        public void CompleteTask(Guid aggregateId,bool completed,string issuedBy)
+        {
+            ApplyChange(new TaskCompletedEvent(aggregateId, GetType(), issuedBy, completed));
+        }
+
     }
 }

@@ -1,26 +1,27 @@
 ﻿using CQRSlite.Commands;
-using Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Services.Commands.Topic
 {
-    public class TopicCreatedCommand : ICommand
+    public class NewReplyCommand : ICommand
     {
+
         public Guid AggregateId { get; set; }
-        public string Title { get; set; }
+        public Guid ReplyId { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public string IssuedBy { get; set; }
 
-        public TopicCreatedCommand(string title, string content, DateTime date, string issuedBy) {
-
-            AggregateId = Guid.NewGuid();
-            Title = title;
+        public NewReplyCommand(string issuedBy, string content, DateTime date,Guid aggregateId)
+        {
+            ReplyId = Guid.NewGuid();
+            AggregateId = aggregateId;
             Content = content;
             Date = date;
             IssuedBy = issuedBy;
         }
+
     }
 }
