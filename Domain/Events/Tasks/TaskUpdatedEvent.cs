@@ -13,6 +13,11 @@ namespace Domain.Events
         public List<string> Tags { get; set; }
         public double Hours { get; set; }
         public DateTime UpdateDate { get; set; }
+
+        public TaskUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
+        {
+        }
+
         public TaskUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string title, string description, List<string> tags, double hours, DateTime updateDate) : base(aggregateId, aggregateType, issuedBy)
         {
             Type = GetType().Name;

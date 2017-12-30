@@ -9,6 +9,8 @@ using Domain;
 using Domain.Events;
 using CQRSlite.Events;
 using CQRSlite.Domain;
+using Services.Commands.Task;
+using Services.Commands.Topic;
 
 namespace WebApi.Controllers
 {
@@ -33,6 +35,64 @@ namespace WebApi.Controllers
             eventList.Add(ev);
             eventStore.Save<Topic>(eventList);
         }
+
+        public int  CreateTask()
+        {
+            var taskCommandHandler = new TaskCommandHandler(_session);
+            var taskCreatedCommand = new TaskCreatedCommand("gabi", "ado.net", "Learn parameter injection",
+                null, 4);
+            taskCommandHandler.Handle(taskCreatedCommand);
+            return 0;
+        }
+        public int UpdateTask()
+        {
+            var taskCommandHandler = new TaskCommandHandler(_session);
+            var taskUpdateCommand = new TaskUpdatedCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"), "biga", "", "", null, 4);
+            taskCommandHandler.Handle(taskUpdateCommand);
+            return 0;
+        }
+
+        public int CreateTopic()
+        {
+            var topicCommandHandler = new TopicCommandHandler(_session);
+            var topicCreatedCommand = new TopicCreatedCommand("use ado.net","for efficiency","gabI");
+            topicCommandHandler.Handle(topicCreatedCommand);
+            return 0;
+        }
+        public int UpdateTopic()
+        {
+            var topicCommandHandler = new TopicCommandHandler(_session);
+            var topicCreatedCommand = new TopicUpdatedCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"),"igab","","");
+            topicCommandHandler.Handle(topicCreatedCommand);
+            return 0;
+        }
+
+        public int NewReply()
+        {
+            var topicCommandHandler = new TopicCommandHandler(_session);
+            var topicCreatedCommand = new NewReplyCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "gabi", "");
+            topicCommandHandler.Handle(topicCreatedCommand);
+            return 0;
+        }
+
+        public int UpdateReply()
+        {
+            var topicCommandHandler = new TopicCommandHandler(_session);
+            var topicCreatedCommand = new ReplyUpdatedCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "abig", "");
+            topicCommandHandler.Handle(topicCreatedCommand);
+            return 0;
+        }
+
+
+        public int CompleteTask()
+        {
+            var taskCommandHandler = new TaskCommandHandler(_session);
+            var taskCreatedCommand = new TaskCompletedCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"),true,"abig");
+            taskCommandHandler.Handle(taskCreatedCommand);
+            return 0;
+        }
+
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

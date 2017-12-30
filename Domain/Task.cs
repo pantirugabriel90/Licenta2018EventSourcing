@@ -8,6 +8,10 @@ namespace Domain
 {
     public class Task : AggregateRoot
     {
+        public Task()
+        {
+
+        }
         public Task(Guid aggregateId,string issuedBy, string title, string content, List<string> tags, double hours,DateTime date) {
             
             Id = aggregateId;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Commands.Topic
 {
-    class TopicCommandHandler : ICommandHandler<TopicCreatedCommand>,ICommandHandler<TopicUpdatedCommand>, ICommandHandler<NewReplyCommand>, ICommandHandler<ReplyUpdatedCommand>
+    public class TopicCommandHandler : ICommandHandler<TopicCreatedCommand>,ICommandHandler<TopicUpdatedCommand>, ICommandHandler<NewReplyCommand>, ICommandHandler<ReplyUpdatedCommand>
     {
         private readonly ISession _session;
 

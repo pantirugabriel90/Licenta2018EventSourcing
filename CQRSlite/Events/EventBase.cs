@@ -15,7 +15,7 @@ namespace CQRSlite.Events
 
         public string IssuedBy { get; set; }
         public string CorrelationId { get; set; }
-
+        
         protected EventBase(Guid aggregateId, Type aggregateType,string issuedBy)
         {
             AggregateId = aggregateId;

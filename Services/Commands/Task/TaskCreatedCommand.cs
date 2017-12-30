@@ -15,14 +15,14 @@ namespace Services.Commands.Task
         public string IssuedBy { get; set; }
         public DateTime Date { get; set; }
 
-        public TaskCreatedCommand(string issuedBy, string title, string content, List<string> tags, double hours,DateTime date)
+        public TaskCreatedCommand(string issuedBy, string title, string content, List<string> tags, double hours)
         {
             AggregateId = Guid.NewGuid();
             Title = title;
             Content = content;
             Tags = tags;
             Hours = hours;
-            Date = date;
+            Date = DateTime.UtcNow;
             IssuedBy = issuedBy;
         }
     }

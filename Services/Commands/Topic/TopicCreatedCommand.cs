@@ -14,12 +14,12 @@ namespace Services.Commands.Topic
         public DateTime Date { get; set; }
         public string IssuedBy { get; set; }
 
-        public TopicCreatedCommand(string title, string content, DateTime date, string issuedBy) {
+        public TopicCreatedCommand(string title, string content,string issuedBy) {
 
             AggregateId = Guid.NewGuid();
             Title = title;
             Content = content;
-            Date = date;
+            Date = DateTime.UtcNow;
             IssuedBy = issuedBy;
         }
     }

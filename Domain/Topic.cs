@@ -7,6 +7,10 @@ namespace Domain
 {
     public class Topic : AggregateRoot
     {
+        public Topic()
+        {
+
+        }
         public Topic(Guid aggregateId,string title,string content,DateTime date,string issuedBy) {
             Id = aggregateId;
             ApplyChange(new TopicCreatedEvent(aggregateId, GetType(), issuedBy, title, content, date));

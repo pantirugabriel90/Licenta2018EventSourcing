@@ -15,7 +15,7 @@ namespace Services.Commands.Task
         public double Hours { get; set; }
         public DateTime UpdateDate { get; set; }
 
-        public TaskUpdatedCommand(Guid aggregateId, string issuedBy, string title, string description, List<string> tags, double hours, DateTime updateDate)
+        public TaskUpdatedCommand(Guid aggregateId, string issuedBy, string title, string description, List<string> tags, double hours)
         {
             AggregateId = aggregateId;
             IssuedBy = issuedBy;
@@ -23,7 +23,7 @@ namespace Services.Commands.Task
             Description = description;
             Tags = tags;
             Hours = hours;
-            UpdateDate = updateDate;
+            UpdateDate = DateTime.UtcNow;
         }
     }
 }

@@ -14,12 +14,12 @@ namespace Services.Commands.Topic
         public DateTime Date { get; set; }
         public string IssuedBy { get; set; }
 
-        public ReplyUpdatedCommand(string content, DateTime date, string issuedBy, Guid replyId, Guid aggregateId)
+        public ReplyUpdatedCommand(Guid aggregateId, Guid replyId, string issuedBy,string content)
         {
             ReplyId = replyId;
             AggregateId = aggregateId;
             Content = content;
-            Date = date;
+            Date = DateTime.UtcNow;
             IssuedBy = issuedBy;
         }
     }

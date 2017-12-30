@@ -9,9 +9,15 @@ namespace Domain.Events
     {
         public bool Completed { get; set; }
 
+        public TaskCompletedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
+        {
+        }
+
         public TaskCompletedEvent(Guid aggregateId, Type aggregateType, string issuedBy,bool completed) : base(aggregateId, aggregateType, issuedBy)
         {
             Completed = completed;
+            Type = GetType().Name;
         }
+
     }
 }

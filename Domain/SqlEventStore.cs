@@ -23,54 +23,65 @@ namespace Domain
         public async Task<IEnumerable<IEvent>> Get(Guid aggregateId, int fromVersion, CancellationToken cancellationToken = default(CancellationToken))
         {
             List<IEvent> eventList = new List<IEvent>();
-
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            try
             {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
 
-                con.Open();
-                string queryString =
-            "SELECT * from dbo.Events "
-                + "WHERE AggregateId = @aggregateId" +
-                "AND Version > @version;";
+                    con.Open();
+                    string queryString =
+                "SELECT * from dbo.Events "
+                    + "WHERE AggregateId = @aggregateId " +
+                    "AND Version > @version;";
 
-                SqlCommand command = new SqlCommand(queryString, con);
-                command.Parameters.AddWithValue("@aggregateId", aggregateId);
+                    SqlCommand command = new SqlCommand(queryString, con);
+                    command.Parameters.AddWithValue("@aggregateId", aggregateId);
 
-                command.Parameters.AddWithValue("@version", fromVersion);
-                using (SqlDataReader reader = command.ExecuteReader()) { 
-
-                    while (reader.Read())
+                    command.Parameters.AddWithValue("@version", fromVersion);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        var eventType = typeof(SqlEventStore).Assembly.GetType("Domain.Events." + reader["Type"].ToString());
-                        var ev = (IEvent)Activator.CreateInstance(eventType, Guid.Parse(reader["AggregateId"].ToString()), typeof(SqlEventStore).Assembly.GetType(reader["AggregateType"].ToString()));
-                        ev.AggregateId = Guid.Parse(reader["AggregateId"].ToString());
-                        ev.AggregateType = typeof(SqlEventStore).Assembly.GetType(reader["AggregateType"].ToString());
-                        ev.Data = reader["Data"].ToString();
-                        ev.IssuedBy = reader["IssuedBy"].ToString();
-                        // ev.TimeStamp = DateTimeOffset.Parse(reader["TimeStamp"].ToString());
-                        ev.Type = reader["Type"].ToString();
-                        ev.Version = Convert.ToInt32(reader["Version"]);
-                        eventList.Add(ev);
+
+                        while (reader.Read())
+                        {
+                            var eventType = typeof(SqlEventStore).Assembly.GetType("Domain.Events." + reader["Type"].ToString());
+                            var ev = (IEvent)Activator.CreateInstance(eventType, Guid.Parse(reader["AggregateId"].ToString()),
+                                typeof(SqlEventStore).Assembly.GetType(reader["AggregateType"].ToString()),
+                                reader["IssuedBy"].ToString());
+                            ev.Data = reader["Data"].ToString();
+                            ev.TimeStamp = DateTimeOffset.Parse(reader["TimeStamp"].ToString());
+                            ev.Type = reader["Type"].ToString();
+                            ev.Version = Convert.ToInt32(reader["Version"]);
+                            eventList.Add(ev);
+                        }
                     }
+                    con.Close();
                 }
-                con.Close();
+            }
+            catch (Exception ex) {
+                throw ex;
             }
             return eventList;
         }
 
         public System.Threading.Tasks.Task Save<T>(IEnumerable<IEvent> events, CancellationToken cancellationToken = default(CancellationToken)) where T : AggregateRoot
         {
-            var eventsGroupedById = events.GroupBy(e => e.AggregateId);
-            // create connection
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                foreach (var group in eventsGroupedById)
+                var eventsGroupedById = events.GroupBy(e => e.AggregateId);
+                // create connection
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    InsertEvents(group, connection);
+                    connection.Open();
+
+                    foreach (var group in eventsGroupedById)
+                    {
+                        InsertEvents(group, connection);
+                    }
+                    connection.Close();
                 }
-                connection.Close();
+            }
+            catch (Exception ex) {
+                throw ex;
             }
 
             return System.Threading.Tasks.Task.CompletedTask;
@@ -120,7 +131,7 @@ namespace Domain
                 // define parameters and their values
                 insertCommand.Parameters.Add("@AggregateId", SqlDbType.UniqueIdentifier).Value = _event.AggregateId;
                 insertCommand.Parameters.Add("@Version", SqlDbType.Int).Value = _event.Version;
-                insertCommand.Parameters.Add("@Type", SqlDbType.VarChar, 100).Value = _event.Type;
+                insertCommand.Parameters.Add("@Type", SqlDbType.VarChar, 100).Value = _event.AggregateType.Name;
                 insertCommand.ExecuteNonQuery();
             }
 
