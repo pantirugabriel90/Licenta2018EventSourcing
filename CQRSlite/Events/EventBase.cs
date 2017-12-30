@@ -7,7 +7,6 @@ namespace CQRSlite.Events
     public abstract class EventBase : IEvent
     {
         public Guid AggregateId { get; set; }
-        public string HumanReadableId { get; set; }
         public int Version { get; set; }
         public string Type { get; set; }
         public Type AggregateType { get; set; }
@@ -17,10 +16,11 @@ namespace CQRSlite.Events
         public string IssuedBy { get; set; }
         public string CorrelationId { get; set; }
 
-        protected EventBase(Guid aggregateId, Type aggregateType)
+        protected EventBase(Guid aggregateId, Type aggregateType,string issuedBy)
         {
             AggregateId = aggregateId;
             AggregateType = aggregateType;
+            IssuedBy = issuedBy;
         }
     }
 }
