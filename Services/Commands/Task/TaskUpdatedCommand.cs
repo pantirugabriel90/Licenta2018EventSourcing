@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CQRSlite.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.Commands.Schedule
+namespace Services.Commands.Task
 {
-    public class TaskUpdatedCommand
+    public class TaskUpdatedCommand : ICommand
     {
     }
 }

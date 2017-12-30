@@ -7,9 +7,18 @@ namespace Domain.Events
 {
     public class TopicCreatedEvent:EventBase
     {
-        public TopicCreatedEvent(Guid aggregateId, Type aggregateType,string issuedBy) : base(aggregateId, aggregateType,issuedBy)
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
+        public List<Reply> Replies { get; set; }
+
+        public TopicCreatedEvent(Guid aggregateId, Type aggregateType,string issuedBy, string title, string content, DateTime date, List<Reply> replies) : base(aggregateId, aggregateType,issuedBy)
         {
-            Type = this.GetType().Name;
+            Title = title;
+            Content = content;
+            Date = date;
+            Replies = replies;
+            Type = GetType().Name;
         }
     }
 }

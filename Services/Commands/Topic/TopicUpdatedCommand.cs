@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CQRSlite.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Services.Commands.Topic
 {
-    public class TopicUpdatedCommand
+    public class TopicUpdatedCommand : ICommand
     {
     }
 }
