@@ -26,6 +26,7 @@ namespace Domain
 
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
+                var x = 3;
 
                 con.Open();
                 string queryString =
