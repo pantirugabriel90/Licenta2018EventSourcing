@@ -9,19 +9,19 @@ namespace Domain.Events
     {
         public Guid ReplyId { get; set; }
         public string Content { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime UpdateDate { get; set; }
         public new string IssuedBy { get; set; }
 
         public ReplyUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
         }
 
-        public ReplyUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string content, DateTime date,Guid replyId) : base(aggregateId, aggregateType, issuedBy)
+        public ReplyUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string content, DateTime updateDate,Guid replyId) : base(aggregateId, aggregateType, issuedBy)
         {
             ReplyId = replyId;
             IssuedBy = issuedBy;
             Content = content;
-            Date = date;
+            UpdateDate = updateDate;
             Type = GetType().Name;
         }
     }

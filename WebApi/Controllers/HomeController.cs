@@ -11,6 +11,7 @@ using CQRSlite.Events;
 using CQRSlite.Domain;
 using Services.Commands.Task;
 using Services.Commands.Topic;
+using DataLayer;
 
 namespace WebApi.Controllers
 {

@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
+using Newtonsoft.Json;
 
-namespace Domain
+namespace DataLayer
 {
     public class SqlEventStore : IEventStore
     {
@@ -154,7 +155,7 @@ namespace Domain
                     insertCommand.Parameters.Add("@Version", SqlDbType.Int).Value = lastVersion;
                     insertCommand.Parameters.Add("@Type", SqlDbType.VarChar, 100).Value = ev.Type;
                     insertCommand.Parameters.Add("@TimeStamp", SqlDbType.DateTimeOffset, 7).Value = ev.TimeStamp;
-                    insertCommand.Parameters.Add("@Data", SqlDbType.VarChar, -1).Value = "";
+                    insertCommand.Parameters.Add("@Data", SqlDbType.VarChar, -1).Value = JsonConvert.SerializeObject(ev);
                     insertCommand.Parameters.Add("@AggregateType", SqlDbType.VarChar, 100).Value = ev.AggregateType.Name;
                     insertCommand.Parameters.Add("@IssuedBy", SqlDbType.VarChar, 50).Value = ev.IssuedBy;
                     //insert

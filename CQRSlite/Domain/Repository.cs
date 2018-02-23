@@ -20,9 +20,10 @@ namespace CQRSlite.Domain
         /// Initialize Repository
         /// </summary>
         /// <param name="eventStore">EventStore to get events from</param>
-        public Repository(IEventStore eventStore)
+        public Repository(IEventStore eventStore,IEventPublisher publisher)
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+            _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
         }
 
 //        /// <summary>

@@ -7,9 +7,15 @@ namespace Domain
 {
     public class Topic : AggregateRoot
     {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
+        public List<Reply> Replies { get; set; }
+        public DateTime UpdateDate { get; set; }
+
         public Topic()
         {
-
+            Replies = new List<Reply>();
         }
         public Topic(Guid aggregateId,string title,string content,DateTime date,string issuedBy) {
             Id = aggregateId;

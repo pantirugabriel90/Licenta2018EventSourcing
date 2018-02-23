@@ -10,7 +10,6 @@ namespace Domain.Events
         
         public string Title { get; set; }
         public string Content { get; set; }
-        public List<string> Tags { get; set; }
         public double Hours { get; set; }
         public DateTime Date { get; set; }
 
@@ -20,11 +19,10 @@ namespace Domain.Events
         }
 
 
-        public TaskCreatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string title, string content, List<string> tags, double hours, DateTime date) : base(aggregateId, aggregateType, issuedBy)
+        public TaskCreatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string title, string content, double hours, DateTime date) : base(aggregateId, aggregateType, issuedBy)
         {
             Title = title;
             Content = content;
-            Tags = tags;
             Hours = hours;
             Date = date;
             Type = GetType().Name;
