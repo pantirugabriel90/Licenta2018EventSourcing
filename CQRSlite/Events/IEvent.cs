@@ -15,5 +15,6 @@ namespace CQRSlite.Events
         DateTimeOffset TimeStamp { get; set; }
         string IssuedBy { get; set; }
         string Data { get; set; }
+
     }
 }

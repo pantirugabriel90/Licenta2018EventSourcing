@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace DataLayer.Migrations
@@ -18,60 +20,40 @@ namespace DataLayer.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Domain.Reply", b =>
+            modelBuilder.Entity("Domain.Views.Entities.Aggregate", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("AggregateId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("IssuedBy");
-
-                    b.Property<Guid?>("TopicId");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("Reply");
-                });
-
-            modelBuilder.Entity("Domain.TaskList", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Completed");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaskList");
-                });
-
-            modelBuilder.Entity("Domain.Topic", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Title");
-
-                    b.Property<DateTime>("UpdateDate");
+                    b.Property<string>("Type");
 
                     b.Property<int>("Version");
 
-                    b.HasKey("Id");
+                    b.HasKey("AggregateId");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Aggregates");
+                });
+
+            modelBuilder.Entity("Domain.Views.Entities.Event", b =>
+                {
+                    b.Property<Guid>("AggregateId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AggregateType");
+
+                    b.Property<string>("Data");
+
+                    b.Property<string>("IssuedBy");
+
+                    b.Property<DateTime>("TimeStamp");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int>("Version");
+
+                    b.HasKey("AggregateId");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Domain.Views.Entities.ProcessedEvent", b =>
@@ -82,7 +64,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("AggregateId", "Version");
 
-                    b.ToTable("ProcessedEvents");
+                    b.ToTable("ProcessedEvent");
                 });
 
             modelBuilder.Entity("Domain.Views.Entities.Tag", b =>
@@ -106,7 +88,7 @@ namespace DataLayer.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Completed");
+                    b.Property<bool>("CompletedStatus");
 
                     b.Property<string>("Content");
 
@@ -123,11 +105,18 @@ namespace DataLayer.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("Domain.Reply", b =>
+            modelBuilder.Entity("Domain.Views.Entities.TaskListElement", b =>
                 {
-                    b.HasOne("Domain.Topic")
-                        .WithMany("Replies")
-                        .HasForeignKey("TopicId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Completed");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskList");
                 });
 
             modelBuilder.Entity("Domain.Views.Entities.Tag", b =>

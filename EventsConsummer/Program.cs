@@ -1,11 +1,31 @@
 ﻿using System;
+using System.Linq;
+using DataLayer;
+using Domain.Events.Tasks;
+using ViewProcessor;
 
 namespace EventsConsummer
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            var context = new ApplicationContext();
+
+            var events = context.Events.ToList();
+
+            var handler = new TaskListHandler();
+            foreach (var evnt in events)
+            {
+                if (evnt.Type == "TaskCreatedEvent")
+                {
+                    var taskCreatedEvent = new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
+
+                    handler.Handle(taskCreatedEvent);
+                }
+
+            }
+
             Console.WriteLine("Hello World!");
         }
     }
