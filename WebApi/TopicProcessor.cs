@@ -7,7 +7,7 @@ namespace ViewProcessor
     public class TopicProcessor
     {
         public List<IEvent> GetUnprocessedEvents() {
-
+            throw new NotImplementedException();
         }
     }
 }

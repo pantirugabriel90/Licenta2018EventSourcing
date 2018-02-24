@@ -3,6 +3,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ViewProcessor
 {
@@ -17,9 +18,9 @@ namespace ViewProcessor
             Context = new ApplicationContext();
         }
 
-        public async List<IEvent> GetUnprocessedEvents() {
+        public async Task<List<IEvent>> GetUnprocessedEvents() {
             var aggregates = await Context.Aggregates.ToListAsync();
-            
+            throw new NotImplementedException();
         }
     }
 }

@@ -20,10 +20,11 @@ namespace DataLayer
         public DbSet<Aggregate> Aggregates { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+
+        //    optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
