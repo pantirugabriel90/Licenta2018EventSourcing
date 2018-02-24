@@ -1,28 +1,31 @@
 ﻿using CQRSlite.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Domain.Views.Entities;
 
 namespace Services.Commands.Task
 {
-    public class TaskCreatedCommand : ICommand
+    public class CreateTaskCommand : ICommand
     {
-        public Guid AggregateId { get; set; }
+        [Required]
         public string Title { get; set; }
         public string Content { get; set; }
-        public List<string> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         public double Hours { get; set; }
         public string IssuedBy { get; set; }
-        public DateTime Date { get; set; }
 
-        public TaskCreatedCommand(string issuedBy, string title, string content, List<string> tags, double hours)
+        public CreateTaskCommand()
         {
-            AggregateId = Guid.NewGuid();
+                
+        }
+        public CreateTaskCommand(string issuedBy, string title, string content, List<Tag> tags, double hours)
+        {
             Title = title;
             Content = content;
             Tags = tags;
             Hours = hours;
-            Date = DateTime.UtcNow;
             IssuedBy = issuedBy;
         }
     }

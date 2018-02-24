@@ -5,16 +5,14 @@ using System.Text;
 
 namespace Services.Commands.Task
 {
-    public class TaskCompletedCommand:ICommand
+    public class TaskStatusChangedCommand : ICommand
     {
         public Guid AggregateId { get; set; }
-        public bool Completed { get; set; }
         public string IssuedBy { get; set; }
 
-        public TaskCompletedCommand(Guid aggregateId,bool completed,string issuedBy)
+        public TaskStatusChangedCommand(Guid aggregateId,string issuedBy)
         {
             AggregateId = aggregateId;
-            Completed = completed;
             IssuedBy = issuedBy;
         }
     }

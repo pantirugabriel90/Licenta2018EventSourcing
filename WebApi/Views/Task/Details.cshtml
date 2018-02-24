@@ -1,0 +1,68 @@
+﻿@model WebApplication3.Models.TaskViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Task</h2>
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LoggedHours)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LoggedHours)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletedStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CompletedStatus)
+        </dd>
+    </dl>
+    @{
+        var topicId = Model.Id;
+    }
+
+    <a asp-action="Delete" asp-route-id="@topicId">Delete</a> |
+    <a asp-action="ChangeTaskStatus" asp-route-id="@topicId">
+        @if (Model.CompletedStatus)
+        {
+            @:Mark completed
+        }
+        else
+        {
+            @:Revert to uncompleted
+            }
+    </a>
+
+</div>

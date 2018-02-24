@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Domain.Views.Entities;
 
 namespace Services.Commands.Task
 {
@@ -11,11 +12,11 @@ namespace Services.Commands.Task
         public string IssuedBy { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<string> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         public double Hours { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime Date { get; set; }
 
-        public TaskUpdatedCommand(Guid aggregateId, string issuedBy, string title, string description, List<string> tags, double hours)
+        public TaskUpdatedCommand(Guid aggregateId, string issuedBy, string title, string description, List<Tag> tags, double hours)
         {
             AggregateId = aggregateId;
             IssuedBy = issuedBy;
@@ -23,7 +24,7 @@ namespace Services.Commands.Task
             Description = description;
             Tags = tags;
             Hours = hours;
-            UpdateDate = DateTime.UtcNow;
+            Date = DateTime.UtcNow;
         }
     }
 }

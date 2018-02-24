@@ -1,0 +1,72 @@
+﻿@model WebApplication3.Models.TopicViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Topic</h2>
+@{
+    var topicId = Model.Id;
+}
+<div>
+
+    <hr/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IssuedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IssuedBy)
+        </dd>
+        <dd>
+            <a asp-action="UpdateTopic" asp-route-id="@topicId">Edit</a> 
+        </dd>
+    </dl>
+    @foreach (var item in Model.Replies)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.Content)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Content)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.Date)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Date)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.IssuedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.IssuedBy)
+            </dd>
+            <dd>
+                <a asp-action="UpdateReply" asp-route-Id="@topicId" asp-route-replyId="@item.Id">Edit</a> 
+            </dd>
+        </dl>
+    }
+    
+    <a asp-action="NewReply" asp-route-id="@topicId">New Reply</a>
+</div>
