@@ -15,12 +15,12 @@ namespace ViewProcessor
     {
         private ApplicationContext Context { get;  }
 
-        public TaskListHandler(ApplicationContext context)
+        public TaskListHandler()
         {
-            Context = context;
+            Context = new ApplicationContext();
         }
 
-        public void HandleCreated(TaskCreatedEvent message)
+        public void Handle(TaskCreatedEvent message)
         {
             var newTask = new TaskListElement
             {
@@ -32,7 +32,7 @@ namespace ViewProcessor
             Context.SaveChanges();
         }
 
-        public void HandleUpdated(TaskUpdatedEvent message)
+        public void Handle(TaskUpdatedEvent message)
         {
             var taskElement = Context.TaskList.FirstOrDefault(t=>t.Id==message.AggregateId);
 
@@ -41,7 +41,7 @@ namespace ViewProcessor
             Context.SaveChanges();
         }
 
-        public void HandleCompleted(TaskStatusChangedEvent message)
+        public void Handle(TaskStatusChangedEvent message)
         {
             var taskElement = Context.TaskList.FirstOrDefault(t => t.Id == message.AggregateId);
 

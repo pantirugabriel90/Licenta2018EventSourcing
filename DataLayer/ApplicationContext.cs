@@ -17,15 +17,15 @@ namespace DataLayer
         public DbSet<Domain.Views.Entities.Task> Tasks { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<ProcessedEvent> ProcessedEvents { get; set; }
-        //public DbSet<Event> Events { get; set; }
-        //public DbSet<Aggregate> Aggregates { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Aggregate> Aggregates { get; set; }
 
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
 
-        //    optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-        //}
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-P6BH1QB\\SQLEXPRESS;Initial Catalog=Licenta2018;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
