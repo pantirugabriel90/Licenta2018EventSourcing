@@ -11,9 +11,10 @@ using System;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20180225065248_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,22 +118,6 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskList");
-                });
-
-            modelBuilder.Entity("Domain.Views.Entities.View", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTimeOffset>("DateOfLastProcessedEvent");
-
-                    b.Property<int>("NumberOfProcessedEvent");
-
-                    b.Property<string>("ViewName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Views");
                 });
 
             modelBuilder.Entity("Domain.Views.Entities.Tag", b =>

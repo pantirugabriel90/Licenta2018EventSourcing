@@ -2,6 +2,7 @@
 using System.Linq;
 using DataLayer;
 using Domain.Events.Tasks;
+using Newtonsoft.Json;
 using ViewProcessor;
 
 namespace EventsConsummer
@@ -19,7 +20,9 @@ namespace EventsConsummer
             {
                 if (evnt.Type == "TaskCreatedEvent")
                 {
-                    var taskCreatedEvent = new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
+
+                    var taskCreatedEvent = JsonConvert.DeserializeObject<TaskCreatedEvent>(evnt.Data);
+                    // new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
 
                     handler.Handle(taskCreatedEvent);
                 }

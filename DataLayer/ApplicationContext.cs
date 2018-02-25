@@ -15,10 +15,11 @@ namespace DataLayer
         }
         public DbSet<TaskListElement> TaskList { get; set; }
         public DbSet<Domain.Views.Entities.Task> Tasks { get; set; }
-        //public DbSet<Topic> Topics { get; set; }
-       // public DbSet<ProcessedEvent> ProcessedEvents { get; set; }
+       //public DbSet<Topic> Topics { get; set; }
+       //public DbSet<ProcessedEvent> ProcessedEvents { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Aggregate> Aggregates { get; set; }
+        public DbSet<View> Views { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

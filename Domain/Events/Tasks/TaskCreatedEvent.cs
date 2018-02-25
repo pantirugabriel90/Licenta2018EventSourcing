@@ -13,6 +13,10 @@ namespace Domain.Events.Tasks
         public double Hours { get; set; }
         public List<Tag> Tags { get; set; }
 
+        public TaskCreatedEvent()
+        {
+            
+        }
         
         public TaskCreatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {

@@ -14,7 +14,6 @@ namespace Domain.Views.Entities
         public DateTime Date { get; set; }
         public List<Tag> Tags { get; set; }
         public bool CompletedStatus { get; set; }
-
         public Task()
         {
         }

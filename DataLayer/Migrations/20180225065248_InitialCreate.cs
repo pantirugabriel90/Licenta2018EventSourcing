@@ -30,7 +30,7 @@ namespace DataLayer.Migrations
                     AggregateType = table.Column<string>(nullable: true),
                     Data = table.Column<string>(nullable: true),
                     IssuedBy = table.Column<string>(nullable: true),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    TimeStamp = table.Column<DateTimeOffset>(nullable: false),
                     Type = table.Column<string>(nullable: true),
                     Version = table.Column<int>(nullable: false)
                 },

@@ -11,8 +11,8 @@ using System;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180224224123_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20180225111129_AddViewsTable")]
+    partial class AddViewsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("IssuedBy");
 
-                    b.Property<DateTime>("TimeStamp");
+                    b.Property<DateTimeOffset>("TimeStamp");
 
                     b.Property<string>("Type");
 
@@ -118,6 +118,22 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskList");
+                });
+
+            modelBuilder.Entity("Domain.Views.Entities.View", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("DateOfLastProcessedEvent");
+
+                    b.Property<int>("NumberOfProcessedEvent");
+
+                    b.Property<string>("ViewName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Views");
                 });
 
             modelBuilder.Entity("Domain.Views.Entities.Tag", b =>

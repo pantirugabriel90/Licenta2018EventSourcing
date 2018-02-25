@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CQRSlite.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Services.Commands.Task;
+using Services.Queries.TaskListView;
 using WebApi.Models;
 using WebApplication3.Models;
 
@@ -18,24 +19,11 @@ namespace WebApi.Controllers
             _session = session;
         }
         // GET: Tasks
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var tasks = new List<TaskListViewModel>
-            {
-                new TaskListViewModel
-                {
-                    Completed = false,
-                    Title = "Entity framework",
-                    Id = Guid.NewGuid()
-                },
-                new TaskListViewModel
-                {
-                    Completed = true,
-                    Title = "Ado.net",
-                    Id = Guid.NewGuid()
-                }
-            };
-            return View(tasks);
+            var queryHandler = new GetTaskListQueryHandler();
+            var result = await queryHandler.HandleAsync(new GetTaskListQuery());
+            return View(result.TaskList);
         }
 
         // GET: Tasks/Details/5 
