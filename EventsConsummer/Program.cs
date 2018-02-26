@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Timers;
 using DataLayer;
 using Domain.Events.Tasks;
 using Newtonsoft.Json;
@@ -11,25 +12,11 @@ namespace EventsConsummer
     {
         static void Main(string[] args)
         {
-            var context = new ApplicationContext();
+            var viewHandler=new ViewsHandler();
+            viewHandler.InterogateDatabase();
 
-            var events = context.Events.ToList();
-
-            var handler = new TaskListHandler();
-            foreach (var evnt in events)
-            {
-                if (evnt.Type == "TaskCreatedEvent")
-                {
-
-                    var taskCreatedEvent = JsonConvert.DeserializeObject<TaskCreatedEvent>(evnt.Data);
-                    // new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
-
-                    handler.Handle(taskCreatedEvent);
-                }
-
-            }
-
-            Console.WriteLine("Hello World!");
         }
+
+       
     }
 }
