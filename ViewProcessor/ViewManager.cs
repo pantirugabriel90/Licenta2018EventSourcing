@@ -10,20 +10,17 @@ using Newtonsoft.Json;
 
 namespace ViewProcessor
 {
-    public class ViewsHandler
+    public class ViewManager
     {
         private ApplicationContext Context { get; }
 
-        public ViewsHandler()
+        public ViewManager()
         {
-            Context= new ApplicationContext();
-
+            Context = new ApplicationContext();
         }
-
 
         public void InterogateDatabase()
         {
-
             Timer t = new Timer(1000); // set the time (5 min in this case)
             t.AutoReset = true;
             t.Elapsed += new System.Timers.ElapsedEventHandler(ProcessEvents);
@@ -43,7 +40,6 @@ namespace ViewProcessor
             {
                 if (evnt.Type == "TaskCreatedEvent")
                 {
-
                     var taskCreatedEvent = JsonConvert.DeserializeObject<TaskCreatedEvent>(evnt.Data);
                     // new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
 
@@ -53,6 +49,13 @@ namespace ViewProcessor
             }
 
 
+        }
+
+        public List<Event> GetUnprocessedEvents(string viewName)
+        {
+            var numberOfProcessedEvents = Context.Views.FirstOrDefault(v => v.ViewName == viewName)?.NumberOfProcessedEvent;
+            var events = Context.Events.OrderBy(e => e.TimeStamp).Skip(numberOfProcessedEvents ?? 0);
+            return events.ToList();
         }
 
         public void DeleteAllViews()

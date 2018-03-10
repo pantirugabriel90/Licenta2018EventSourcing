@@ -12,8 +12,9 @@ namespace EventsConsummer
     {
         static void Main(string[] args)
         {
-            var viewHandler=new ViewsHandler();
+            var viewHandler=new ViewManager();
             viewHandler.InterogateDatabase();
+            Console.ReadKey();
 
         }
 
