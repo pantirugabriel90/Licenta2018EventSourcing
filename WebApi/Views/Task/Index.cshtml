@@ -34,7 +34,16 @@
 
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="CompleteTask" asp-route-id="@item.Id">Mark completed</a>
+                    <a asp-action="UpdateTask" asp-route-id="@item.Id">Update Task</a> |
+
+                    <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">@if (!item.Completed)
+                                                                             {
+                                                                                 @:Mark completed
+                                                                             }
+                                                                             else
+                                                                             {
+                                                                                 @:Reopen task
+                                                                             }</a>
                 </td>
             </tr>
         }

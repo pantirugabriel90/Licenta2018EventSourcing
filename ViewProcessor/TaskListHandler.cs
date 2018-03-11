@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Events.Tasks;
 using Domain.Views.Entities;
 
 namespace ViewProcessor
@@ -38,8 +37,8 @@ namespace ViewProcessor
         {
             var taskElement = Context.TaskList.FirstOrDefault(t => t.Id == message.AggregateId);
 
-            if (taskElement != null)
-                taskElement.Title = message.Title;
+            taskElement.Title = message.Title;
+            taskElement.Completed = message.CompletedStatus;
             Context.SaveChanges();
         }
 

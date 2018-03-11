@@ -1,4 +1,4 @@
-﻿@model WebApplication3.Models.TaskViewModel
+﻿@model Services.Commands.Task.UpdateTaskCommand
 @{
     ViewData["Title"] = "Edit";
 }
@@ -8,7 +8,7 @@
     <div class="col-md-4">
         <form asp-action="UpdateTask">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="AggregateId" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -25,9 +25,14 @@
                 <span asp-validation-for="Hours" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="LoggedHours" class="control-label"></label>
+                <input asp-for="LoggedHours" class="form-control" />
+                <span asp-validation-for="LoggedHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Completed" /> @Html.DisplayNameFor(model => model.Completed)
+                        <input asp-for="CompletedStatus" /> @Html.DisplayNameFor(model => model.CompletedStatus)
                     </label>
                 </div>
             </div>

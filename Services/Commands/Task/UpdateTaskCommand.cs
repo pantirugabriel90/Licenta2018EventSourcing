@@ -6,25 +6,32 @@ using Domain.Views.Entities;
 
 namespace Services.Commands.Task
 {
-    public class TaskUpdatedCommand : ICommand
+    public class UpdateTaskCommand : ICommand
     {
         public Guid AggregateId { get; set; }
         public string IssuedBy { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string Content { get; set; }
         public List<Tag> Tags { get; set; }
         public double Hours { get; set; }
-        public DateTime Date { get; set; }
+        public double LoggedHours { get; set; }
 
-        public TaskUpdatedCommand(Guid aggregateId, string issuedBy, string title, string description, List<Tag> tags, double hours)
+        public bool CompletedStatus { get; set; }
+
+        public UpdateTaskCommand()
+        {
+                
+        }
+        public UpdateTaskCommand(Guid aggregateId, string issuedBy, string title, string content, List<Tag> tags, double hours,bool completedStatus,double loggedHours)
         {
             AggregateId = aggregateId;
             IssuedBy = issuedBy;
             Title = title;
-            Description = description;
+            Content = content;
             Tags = tags;
             Hours = hours;
-            Date = DateTime.UtcNow;
+            LoggedHours = loggedHours;
+            CompletedStatus = completedStatus;
         }
     }
 }

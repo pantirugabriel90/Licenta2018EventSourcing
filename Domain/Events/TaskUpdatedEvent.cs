@@ -9,23 +9,29 @@ namespace Domain.Events
     {
         public new string IssuedBy { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string Content { get; set; }
         public double Hours { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public double LoggedHours { get; set; }
+        public bool CompletedStatus { get; set; }
 
+        public TaskUpdatedEvent()
+        {
+                
+        }
         public TaskUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
         }
 
-        public TaskUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string title, string description, double hours, DateTime updateDate) : base(aggregateId, aggregateType, issuedBy)
+        public TaskUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy, string title, string content, double hours, double loggedHours,bool completedStatus) : base(aggregateId, aggregateType, issuedBy)
         {
             Type = GetType().Name;
             AggregateId = aggregateId;
             IssuedBy = issuedBy;
             Title = title;
-            Description = description;
+            Content = content;
+            LoggedHours = loggedHours;
+            CompletedStatus = completedStatus;
             Hours = hours;
-            UpdateDate = updateDate;
 
         }
     }

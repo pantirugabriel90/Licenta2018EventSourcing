@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using CQRSlite.Domain;
 using Domain.Events;
-using Domain.Events.Tasks;
 using Domain.Views.Entities;
 
 namespace Domain
@@ -27,9 +26,9 @@ namespace Domain
             ApplyChange(new TaskCreatedEvent(aggregateId, GetType(), issuedBy, title, content, hours,tags));
         }
 
-        public void UpdateTaskDetails(Guid aggregateId, string issuedBy, string title, string description, List<Tag> tags, double hours, DateTime updateDate)
+        public void UpdateTaskDetails(Guid aggregateId, string issuedBy, string title, string description, List<Tag> tags, double hours, double loggedHours,bool completedStatus)
         {
-            ApplyChange(new TaskUpdatedEvent(aggregateId, GetType(), issuedBy, title, description, hours, updateDate));
+            ApplyChange(new TaskUpdatedEvent(aggregateId, GetType(), issuedBy, title, description, hours,loggedHours,completedStatus ));
         }
 
         public void CompleteTask(Guid aggregateId,string issuedBy)

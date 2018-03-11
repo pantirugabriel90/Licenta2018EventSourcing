@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Timers;
 using DataLayer;
-using Domain.Events.Tasks;
 using Newtonsoft.Json;
 using ViewProcessor;
 

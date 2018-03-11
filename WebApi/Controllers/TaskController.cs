@@ -5,6 +5,7 @@ using CQRSlite.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Services.Commands.Task;
 using Services.Queries.TaskListView;
+using Services.Queries.TaskView;
 using WebApi.Models;
 using WebApplication3.Models;
 
@@ -18,7 +19,7 @@ namespace WebApi.Controllers
         {
             _session = session;
         }
-        // GET: Tasks
+
         public async Task<ActionResult> Index()
         {
             var queryHandler = new GetTaskListQueryHandler();
@@ -26,24 +27,13 @@ namespace WebApi.Controllers
             return View(result.TaskList);
         }
 
-        // GET: Tasks/Details/5 
-        public ActionResult Details(Guid id)
+        public async  Task<ActionResult> Details(Guid id)
         {
-            var task = new TaskViewModel
-            {
-                CompletedStatus = true,
-                Content = "learn ado.net",
-                Date = DateTime.UtcNow,
-                Hours = 8,
-                LoggedHours = 4,
-                Id = Guid.NewGuid(),
-                Title = "ado.net"
-
-            };
-            return View(task);
+            var queryHandler = new GetTaskQueryHandler();
+            var result = await queryHandler.HandleAsync(new GetTaskQuery{AggregateId = id});
+            return View(result);
         }
 
-        // GET: Tasks/Create
         public ActionResult Create()
         {
             return View();
@@ -64,36 +54,44 @@ namespace WebApi.Controllers
             return View(createTaskCommand);
         }
 
-        // GET: Tasks/Edit/5
-        public ActionResult UpdateTask(Guid id)
+        public async Task<ActionResult> UpdateTask(Guid id)
         {
-            ViewBag.IdData = id;
-            return View();
+            var queryHandler = new GetTaskQueryHandler();
+            var task = await queryHandler.HandleAsync(new GetTaskQuery { AggregateId = id });
+            var model = new UpdateTaskCommand
+            {
+                Title = task.Title,
+                AggregateId = task.Id,
+                Content = task.Content,
+                CompletedStatus = task.CompletedStatus,
+                Hours = task.Hours,
+                LoggedHours = task.LoggedHours,
+            };
+            return View(model);
         }
 
-        // POST: Tasks/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateTask(TaskViewModel task)
+        public async Task<ActionResult> UpdateTask(UpdateTaskCommand updateTask)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                updateTask.IssuedBy = "Pantiru Gabriel";
+                var taskCommandHandler = new TaskCommandHandler(_session);
+                await taskCommandHandler.Handle(updateTask);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(updateTask);
+
         }
 
-        //[HttpPut]
         public async Task<ActionResult> ChangeTaskStatus(Guid id)
         {
 
             var taskCommandHandler = new TaskCommandHandler(_session);
-            var taskCreatedCommand = new TaskStatusChangedCommand(id, "abig");
+            var taskCreatedCommand = new ChangeTaskStatusCommand(id, "abig");
             await taskCommandHandler.Handle(taskCreatedCommand);
             
             return RedirectToAction(nameof(Index));

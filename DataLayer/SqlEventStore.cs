@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
+using Domain.Views.Entities;
 using Newtonsoft.Json;
 
 namespace DataLayer
@@ -44,7 +45,7 @@ namespace DataLayer
 
                         while (reader.Read())
                         {
-                            var eventType = typeof(SqlEventStore).Assembly.GetType("Domain.Events." + reader["Type"].ToString());
+                            var eventType = typeof(Event).Assembly.GetType("Domain.Events." + reader["Type"].ToString());
                             var ev = (IEvent)Activator.CreateInstance(eventType, Guid.Parse(reader["AggregateId"].ToString()),
                                 typeof(SqlEventStore).Assembly.GetType(reader["AggregateType"].ToString()),
                                 reader["IssuedBy"].ToString());

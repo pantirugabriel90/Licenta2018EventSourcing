@@ -48,7 +48,7 @@ namespace WebApi.Controllers
         public int UpdateTask()
         {
             var taskCommandHandler = new TaskCommandHandler(_session);
-            var taskUpdateCommand = new TaskUpdatedCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"), "biga", "", "", null, 4);
+            var taskUpdateCommand = new UpdateTaskCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"), "biga", "", "", null, 4,true,2);
             taskCommandHandler.Handle(taskUpdateCommand);
             return 0;
         }
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
         public int CompleteTask()
         {
             var taskCommandHandler = new TaskCommandHandler(_session);
-            var taskCreatedCommand = new TaskStatusChangedCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"),"abig");
+            var taskCreatedCommand = new ChangeTaskStatusCommand(Guid.Parse("912B5B61-1D0B-4142-899D-C686240DC37E"),"abig");
             taskCommandHandler.Handle(taskCreatedCommand);
             return 0;
         }

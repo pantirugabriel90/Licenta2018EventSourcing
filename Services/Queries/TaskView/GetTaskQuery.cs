@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Services.Queries.TaskView
 {
-    class GetTaskQuery
+    public class GetTaskQuery : IQuery<GetTaskQueryResult>
     {
+        public Guid AggregateId { get; set; }
     }
 }

@@ -32,6 +32,8 @@ namespace DataLayer
         {
             modelBuilder.Entity<ProcessedEvent>()
                 .HasKey(e => new { e.AggregateId, e.Version });
+            modelBuilder.Entity<Event>()
+                .HasKey(e => new { e.AggregateId, e.TimeStamp });
         }
     }
 }

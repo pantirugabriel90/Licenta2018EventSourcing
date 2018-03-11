@@ -1,5 +1,4 @@
 ﻿using Domain.Events;
-using Domain.Events.Tasks;
 
 namespace ViewProcessor
 {

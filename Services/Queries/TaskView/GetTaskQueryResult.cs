@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Domain.Views.Entities;
 
 namespace Services.Queries.TaskView
 {
-    class GetTaskQueryResult
+    public class GetTaskQueryResult : Task, IQueryResult
     {
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model WebApplication3.Models.TaskViewModel
+﻿@model Services.Queries.TaskView.GetTaskQueryResult
 
 @{
     ViewBag.Title = "title";
@@ -36,12 +36,7 @@
         <dd>
             @Html.DisplayFor(model => model.LoggedHours)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+        
         <dt>
             @Html.DisplayNameFor(model => model.CompletedStatus)
         </dt>
@@ -50,18 +45,19 @@
         </dd>
     </dl>
     @{
-        var topicId = Model.Id;
+            var taskId = Model.Id;
     }
 
-    <a asp-action="Delete" asp-route-id="@topicId">Delete</a> |
-    <a asp-action="ChangeTaskStatus" asp-route-id="@topicId">
-        @if (Model.CompletedStatus)
+    <a asp-action="Delete" asp-route-id="@taskId">Delete</a> |
+    <a asp-action="UpdateTask" asp-route-id="@taskId">Update Task</a> | 
+    <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
+        @if (!Model.CompletedStatus)
         {
             @:Mark completed
         }
         else
         {
-            @:Revert to uncompleted
+            @:Reopen task
             }
     </a>
 

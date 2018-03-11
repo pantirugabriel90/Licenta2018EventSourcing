@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using DataLayer;
-using Domain.Events.Tasks;
 using Domain.Views.Entities;
 using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
@@ -23,7 +22,8 @@ namespace ViewProcessor
         {
             ViewHandlers = new Dictionary<string, IEventsHandler>
             {
-                {"TaskList",new TaskListHandler()}
+                {"TaskList",new TaskListHandler()},
+                { "Task",new TaskHandler()}
             };
             Context = new ApplicationContext();
         }
@@ -48,8 +48,6 @@ namespace ViewProcessor
                     var events = GetUnprocessedEvents(viewHandler.Key);
                     foreach (var evnt in events)
                     {
-                        if (evnt.Type == "TaskCreatedEvent")
-                        {
                             var eventType = typeof(Event).Assembly.GetType("Domain.Events." + evnt.Type);
                             var taskCreatedEvent = JsonConvert.DeserializeObject(evnt.Data,eventType);
                             var type = viewHandler.Value.GetType();
@@ -61,7 +59,6 @@ namespace ViewProcessor
                             //viewHandler.Value.Handle(taskCreatedEvent);
                             Context.Views.FirstOrDefault(v => v.ViewName == viewHandler.Key).NumberOfProcessedEvent++;
                             Context.SaveChanges();
-                        }
                     }
 
                 }
@@ -82,9 +79,11 @@ namespace ViewProcessor
             {
                 SqlCommand com = new SqlCommand("Delete From TaskList ", con);
                 con.Open();
-                bool Deleted = com.ExecuteNonQuery() > 0;
+                com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From Views ", con);
-                Deleted = com.ExecuteNonQuery() > 0;
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From Tasks ", con);
+                com.ExecuteNonQuery();
             }
             SeedViewsTable();
             Context.SaveChanges();
