@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Timers;
 using DataLayer;
 using Domain.Events.Tasks;
 using Domain.Views.Entities;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 
 namespace ViewProcessor
@@ -13,15 +16,21 @@ namespace ViewProcessor
     public class ViewManager
     {
         private ApplicationContext Context { get; }
+        private Dictionary<string, IEventsHandler> ViewHandlers { get; set; }
+        private Object _thisLock = new Object();
 
         public ViewManager()
         {
+            ViewHandlers = new Dictionary<string, IEventsHandler>
+            {
+                {"TaskList",new TaskListHandler()}
+            };
             Context = new ApplicationContext();
         }
 
         public void InterogateDatabase()
         {
-            Timer t = new Timer(1000); // set the time (5 min in this case)
+            System.Timers.Timer t = new System.Timers.Timer(1000); // set the time (5 min in this case)
             t.AutoReset = true;
             t.Elapsed += new System.Timers.ElapsedEventHandler(ProcessEvents);
             t.Start();
@@ -31,23 +40,32 @@ namespace ViewProcessor
         {
             System.Console.WriteLine("works");
 
-            var context = new ApplicationContext();
-
-            var events = context.Events.ToList();
-
-            var handler = new TaskListHandler();
-            foreach (var evnt in events)
+            lock (_thisLock)
             {
-                if (evnt.Type == "TaskCreatedEvent")
+
+                foreach (var viewHandler in ViewHandlers)
                 {
-                    var taskCreatedEvent = JsonConvert.DeserializeObject<TaskCreatedEvent>(evnt.Data);
-                    // new TaskCreatedEvent (evnt.AggregateId,Type.GetType(evnt.AggregateType),evnt.IssuedBy);
+                    var events = GetUnprocessedEvents(viewHandler.Key);
+                    foreach (var evnt in events)
+                    {
+                        if (evnt.Type == "TaskCreatedEvent")
+                        {
+                            var eventType = typeof(Event).Assembly.GetType("Domain.Events." + evnt.Type);
+                            var taskCreatedEvent = JsonConvert.DeserializeObject(evnt.Data,eventType);
+                            var type = viewHandler.Value.GetType();
+                            var method = type.GetMethods().FirstOrDefault(m =>
+                                m.Name == "Handle" && m.GetParameters().First().ParameterType == eventType);
+                            if (method != null)
+                                method.Invoke(viewHandler.Value, new object[] { taskCreatedEvent });
 
-                    //handler.Handle(taskCreatedEvent);
+                            //viewHandler.Value.Handle(taskCreatedEvent);
+                            Context.Views.FirstOrDefault(v => v.ViewName == viewHandler.Key).NumberOfProcessedEvent++;
+                            Context.SaveChanges();
+                        }
+                    }
+
                 }
-
             }
-
 
         }
 
@@ -60,9 +78,16 @@ namespace ViewProcessor
 
         public void DeleteAllViews()
         {
-            Context.TaskList.ToList().Clear();
-            Context.Views.ToList().Clear();
+            using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-P6BH1QB\\SQLEXPRESS;Initial Catalog=Licenta2018;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
+            {
+                SqlCommand com = new SqlCommand("Delete From TaskList ", con);
+                con.Open();
+                bool Deleted = com.ExecuteNonQuery() > 0;
+                com = new SqlCommand("Delete From Views ", con);
+                Deleted = com.ExecuteNonQuery() > 0;
+            }
             SeedViewsTable();
+            Context.SaveChanges();
         }
 
         public void SeedViewsTable()

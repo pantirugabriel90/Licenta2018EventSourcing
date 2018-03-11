@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CQRSlite.Events;
 using Domain.Views.Entities;
 
-namespace Domain.Events.Tasks
+namespace Domain.Events
 {
     public class TaskCreatedEvent : EventBase
     {

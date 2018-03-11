@@ -12,12 +12,13 @@ namespace EventsConsummer
     {
         static void Main(string[] args)
         {
-            var viewHandler=new ViewManager();
-            viewHandler.InterogateDatabase();
+            var viewManager = new ViewManager();
+            viewManager.DeleteAllViews();
+            viewManager.InterogateDatabase();
             Console.ReadKey();
 
         }
 
-       
+
     }
 }
