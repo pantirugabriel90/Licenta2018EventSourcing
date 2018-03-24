@@ -12,6 +12,10 @@ namespace Domain.Events
         public DateTime UpdateDate { get; set; }
         public List<Reply> Replies { get; set; }
 
+        public TopicUpdatedEvent()
+        {
+                
+        }
         public TopicUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
         }

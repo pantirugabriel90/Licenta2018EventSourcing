@@ -1,14 +1,11 @@
-﻿using System;
+﻿using DataLayer;
+using Domain.Views.Entities;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Timers;
-using DataLayer;
-using Domain.Views.Entities;
-using Microsoft.EntityFrameworkCore.Internal;
-using Newtonsoft.Json;
 
 namespace ViewProcessor
 {
@@ -22,8 +19,10 @@ namespace ViewProcessor
         {
             ViewHandlers = new Dictionary<string, IEventsHandler>
             {
-                {"TaskList",new TaskListHandler()},
-                { "Task",new TaskHandler()}
+                {"TaskList", new TaskListHandler()},
+                {"Task", new TaskHandler()},
+                {"Topic", new TopicHandler()},
+                {"TopicList", new TopicListHandler()}
             };
             Context = new ApplicationContext();
         }
@@ -73,7 +72,7 @@ namespace ViewProcessor
             return events.ToList();
         }
 
-        public void DeleteAllViews()
+        public void RestoreAllViews()
         {
             using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-P6BH1QB\\SQLEXPRESS;Initial Catalog=Licenta2018;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
             {
@@ -83,6 +82,10 @@ namespace ViewProcessor
                 com = new SqlCommand("Delete From Views ", con);
                 com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From Tasks ", con);
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From Topics ", con);
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From TopicList ", con);
                 com.ExecuteNonQuery();
             }
             SeedViewsTable();
@@ -101,6 +104,18 @@ namespace ViewProcessor
             Context.Views.Add(new View
             {
                 ViewName = "Task",
+                DateOfLastProcessedEvent = DateTimeOffset.MinValue,
+                NumberOfProcessedEvent = 0
+            });
+            Context.Views.Add(new View
+            {
+                ViewName = "TopicList",
+                DateOfLastProcessedEvent = DateTimeOffset.MinValue,
+                NumberOfProcessedEvent = 0
+            });
+            Context.Views.Add(new View
+            {
+                ViewName = "Topic",
                 DateOfLastProcessedEvent = DateTimeOffset.MinValue,
                 NumberOfProcessedEvent = 0
             });

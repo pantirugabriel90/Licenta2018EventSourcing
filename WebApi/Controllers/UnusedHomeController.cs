@@ -56,14 +56,14 @@ namespace WebApi.Controllers
         public int CreateTopic()
         {
             var topicCommandHandler = new TopicCommandHandler(_session);
-            var topicCreatedCommand = new TopicCreatedCommand("use ado.net","for efficiency","gabI");
+            var topicCreatedCommand = new CreateTopicCommand("use ado.net","for efficiency","gabI");
             topicCommandHandler.Handle(topicCreatedCommand);
             return 0;
         }
         public int UpdateTopic()
         {
             var topicCommandHandler = new TopicCommandHandler(_session);
-            var topicCreatedCommand = new TopicUpdatedCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"),"igab","","");
+            var topicCreatedCommand = new UpdateTopicCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"),"igab","","");
             topicCommandHandler.Handle(topicCreatedCommand);
             return 0;
         }
@@ -71,7 +71,7 @@ namespace WebApi.Controllers
         public int NewReply()
         {
             var topicCommandHandler = new TopicCommandHandler(_session);
-            var topicCreatedCommand = new NewReplyCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "gabi", "");
+            var topicCreatedCommand = new AddNewReplyCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "gabi", "");
             topicCommandHandler.Handle(topicCreatedCommand);
             return 0;
         }
@@ -79,7 +79,7 @@ namespace WebApi.Controllers
         public int UpdateReply()
         {
             var topicCommandHandler = new TopicCommandHandler(_session);
-            var topicCreatedCommand = new ReplyUpdatedCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "abig", "");
+            var topicCreatedCommand = new UpdateReplyCommand(Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), Guid.Parse("6334E291-B79A-4592-B6AB-91185EBC2AAD"), "abig", "");
             topicCommandHandler.Handle(topicCreatedCommand);
             return 0;
         }

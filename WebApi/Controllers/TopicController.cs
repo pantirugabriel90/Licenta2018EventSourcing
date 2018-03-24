@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Services.Commands.Topic;
 using WebApplication3.Models;
+using CQRSlite.Domain;
 
 namespace WebApi.Controllers
 {
     public class TopicController : Controller
     {
+        private ISession _session { get; }
+
+        public TopicController(ISession session)
+        {
+            _session = session;
+        }
         // GET: Topic
         public ActionResult Index()
         {
@@ -77,47 +86,49 @@ namespace WebApi.Controllers
         // POST: Topic/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TopicViewModel collection)
+        public async Task<ActionResult> Create(CreateTopicCommand createTopicCommand)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                createTopicCommand.IssuedBy = "Pantiru Gabriel";
+                var topicCommandHandler = new TopicCommandHandler(_session);
+                await topicCommandHandler.Handle(createTopicCommand);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
-        }
 
+            return View();
+        }
+        
         // GET: Topic/Edit/5
         public ActionResult UpdateTopic(Guid id)
         {
-            ViewBag.IdData = id;
+            ViewBag.AggregateId = id;
             return View();
         }
 
         // POST: Topic/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateTopic(int id, TopicViewModel collection)
+        public async Task<ActionResult> UpdateTopic(UpdateTopicCommand updateTopicCommand)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                updateTopicCommand.IssuedBy = "Pantiru Gabriel";
+                var topicCommandHandler = new TopicCommandHandler(_session);
+                await topicCommandHandler.Handle(updateTopicCommand);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
+            
         }
 
-        public ActionResult NewReply(Guid id)
+        //[Route("Topic/AddNewReply/{topicId}")]
+        public ActionResult AddNewReply(Guid id)
         {
-            ViewBag.IdData = id;
+            ViewBag.AggregateId = id;
 
             return View();
         }
@@ -125,23 +136,22 @@ namespace WebApi.Controllers
         // POST: Topic/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewReply(ReplyViewModel collection)
+        public async Task<ActionResult> AddNewReply(AddNewReplyCommand addNewReplyCommand)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                addNewReplyCommand.IssuedBy = "Pantiru Gabriel";
+                var topicCommandHandler = new TopicCommandHandler(_session);
+                await topicCommandHandler.Handle(addNewReplyCommand);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
-        public ActionResult UpdateReply(Guid id,Guid replyId)
+        public ActionResult UpdateReply(Guid id, Guid replyId)
         {
-            ViewBag.Id = id;
+            ViewBag.AggregateId = id;
             ViewBag.ReplyId = replyId;
             return View();
         }
@@ -149,20 +159,19 @@ namespace WebApi.Controllers
         // POST: Topic/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateReply(ReplyViewModel collection)
+        public async Task<ActionResult> UpdateReply(UpdateReplyCommand updateReplyCommand)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                updateReplyCommand.IssuedBy = "Pantiru Gabriel";
+                var topicCommandHandler = new TopicCommandHandler(_session);
+                await topicCommandHandler.Handle(updateReplyCommand);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
-        
+
     }
 }

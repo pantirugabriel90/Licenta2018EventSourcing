@@ -11,7 +11,7 @@ using Domain.Views.Entities;
 namespace ViewProcessor
 {
    
-    public class TaskListHandler : IEventsHandler
+    public class TaskListHandler :IEventsHandler
     {
         public const string ViewName = "TaskList";
         private ApplicationContext Context { get; }
@@ -49,6 +49,22 @@ namespace ViewProcessor
             if (taskElement != null)
                 taskElement.Completed = !taskElement.Completed;
             Context.SaveChanges();
+        }
+
+        public void Handle(TopicCreatedEvent message)
+        {
+        }
+
+        public void Handle(TopicUpdatedEvent message)
+        {
+        }
+
+        public void Handle(ReplyUpdatedEvent message)
+        {
+        }
+
+        public void Handle(NewReplyAddedEvent message)
+        {
         }
     }
 }

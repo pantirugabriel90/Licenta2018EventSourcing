@@ -14,9 +14,9 @@ namespace DataLayer
         {
         }
         public DbSet<TaskListElement> TaskList { get; set; }
+        public DbSet<TopicListElement> TopicList { get; set; }
         public DbSet<Domain.Views.Entities.Task> Tasks { get; set; }
-       //public DbSet<Topic> Topics { get; set; }
-       //public DbSet<ProcessedEvent> ProcessedEvents { get; set; }
+        public DbSet<Domain.Views.Entities.Topic> Topics { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Aggregate> Aggregates { get; set; }
         public DbSet<View> Views { get; set; }
@@ -30,8 +30,6 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProcessedEvent>()
-                .HasKey(e => new { e.AggregateId, e.Version });
             modelBuilder.Entity<Event>()
                 .HasKey(e => new { e.AggregateId, e.TimeStamp });
         }

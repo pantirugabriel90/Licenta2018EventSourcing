@@ -74,5 +74,21 @@ namespace ViewProcessor
                 throw new Exception("Aggregate not found");
             }
         }
+
+        public void Handle(TopicCreatedEvent message)
+        {
+        }
+
+        public void Handle(TopicUpdatedEvent message)
+        {
+        }
+
+        public void Handle(ReplyUpdatedEvent message)
+        {
+        }
+
+        public void Handle(NewReplyAddedEvent message)
+        {
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace Domain
             ApplyChange(new TopicUpdatedEvent(aggregateId, GetType(), issuedBy, title, content, updateDate));
         }
         public void AddNewReply(Guid aggregateId,string content,DateTime date,string issuedBy,Guid replyId) {
-            ApplyChange(new NewReplyEvent(aggregateId,GetType(),issuedBy,content,date,replyId));
+            ApplyChange(new NewReplyAddedEvent(aggregateId,GetType(),issuedBy,content,date,replyId));
         }
 
         public void UpdateReply(Guid aggregateId, string content, DateTime updateDate, string issuedBy, Guid replyId)

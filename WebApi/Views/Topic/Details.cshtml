@@ -12,6 +12,10 @@
 <div>
 
     <hr/>
+    
+    <a asp-action="AddNewReply" asp-route-id="@topicId">New Reply</a>
+        <a asp-action="UpdateTopic" asp-route-id="@topicId">Update Topic</a> 
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)
@@ -37,9 +41,7 @@
         <dd>
             @Html.DisplayFor(model => model.IssuedBy)
         </dd>
-        <dd>
-            <a asp-action="UpdateTopic" asp-route-id="@topicId">Edit</a> 
-        </dd>
+        
     </dl>
     @foreach (var item in Model.Replies)
     {
@@ -68,5 +70,4 @@
         </dl>
     }
     
-    <a asp-action="NewReply" asp-route-id="@topicId">New Reply</a>
 </div>

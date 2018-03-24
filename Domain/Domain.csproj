@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Events\Tasks\" />
+    <Folder Include="Events\Topics\" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Services.Commands.Topic
 {
-    public class TopicUpdatedCommand : ICommand
+    public class UpdateTopicCommand : ICommand
     {
         public Guid AggregateId { get; set; }
         public string Title { get; set; }
@@ -14,7 +14,11 @@ namespace Services.Commands.Topic
         public DateTime UpdateDate { get; set; }
         public string IssuedBy { get; set; }
 
-        public TopicUpdatedCommand(Guid aggregateId,string issuedBy, string title, string content)
+        public UpdateTopicCommand()
+        {
+                
+        }
+        public UpdateTopicCommand(Guid aggregateId,string issuedBy, string title, string content)
         {
             AggregateId = aggregateId;
             Title = title;

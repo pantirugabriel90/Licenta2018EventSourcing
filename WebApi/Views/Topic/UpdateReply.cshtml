@@ -1,11 +1,11 @@
-﻿@model WebApplication3.Models.ReplyViewModel
+﻿@model Services.Commands.Topic.UpdateReplyCommand
 @{
     ViewData["Title"] = "Edit";
 }
 <h2>Update Reply</h2>
 <hr />
 @{
-    var id = (Guid)ViewBag.Id;
+    var aggregateId = (Guid)ViewBag.AggregateId;
     var replyId = (Guid)ViewBag.ReplyId;
 
 }
@@ -13,8 +13,8 @@
     <div class="col-md-4">
         <form asp-action="UpdateReply" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ReplyId" />
+            <input type="hidden" asp-for="AggregateId" value =@aggregateId/>
+            <input type="hidden" asp-for="ReplyId" value=@replyId/>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
                 <input asp-for="Content" class="form-control" />
@@ -28,7 +28,7 @@
 </div>
 <div>
     
-    <a asp-action="Details" asp-route-id="@id">Back to Topic</a>
+    <a asp-action="Details" asp-route-id="@aggregateId">Back to Topic</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

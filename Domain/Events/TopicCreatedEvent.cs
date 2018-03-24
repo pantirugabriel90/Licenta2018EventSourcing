@@ -11,6 +11,10 @@ namespace Domain.Events
         public string Content { get; set; }
         public DateTime Date { get; set; }
 
+        public TopicCreatedEvent()
+        {
+
+        }
         public TopicCreatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
         }

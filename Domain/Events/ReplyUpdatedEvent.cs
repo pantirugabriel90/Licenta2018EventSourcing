@@ -5,13 +5,17 @@ using System.Text;
 
 namespace Domain.Events
 {
-    class ReplyUpdatedEvent : EventBase
+    public class ReplyUpdatedEvent : EventBase
     {
         public Guid ReplyId { get; set; }
         public string Content { get; set; }
         public DateTime UpdateDate { get; set; }
         public new string IssuedBy { get; set; }
 
+        public ReplyUpdatedEvent()
+        {
+                
+        }
         public ReplyUpdatedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
         }

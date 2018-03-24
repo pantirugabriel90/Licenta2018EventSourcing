@@ -5,22 +5,25 @@ using System.Text;
 
 namespace Services.Commands.Topic
 {
-    public class ReplyUpdatedCommand : ICommand
+    public class AddNewReplyCommand : ICommand
     {
 
         public Guid AggregateId { get; set; }
-        public Guid ReplyId { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public string IssuedBy { get; set; }
 
-        public ReplyUpdatedCommand(Guid aggregateId, Guid replyId, string issuedBy,string content)
+        public AddNewReplyCommand()
         {
-            ReplyId = replyId;
+                
+        }
+        public AddNewReplyCommand(Guid aggregateId, string issuedBy, string content)
+        {
             AggregateId = aggregateId;
             Content = content;
             Date = DateTime.UtcNow;
             IssuedBy = issuedBy;
         }
+
     }
 }
