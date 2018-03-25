@@ -11,6 +11,8 @@ namespace Services.Queries.TaskListView
     {
         public async Task<GetTaskListQueryResult> HandleAsync(GetTaskListQuery query)
         {
+            ViewSincronizor.Sincornize("TaskList");
+
             var context = new ApplicationContext();
             return new GetTaskListQueryResult
             {

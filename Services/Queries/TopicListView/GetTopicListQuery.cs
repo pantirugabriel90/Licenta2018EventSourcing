@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services.Queries.TopicListView
 {
-    public class GetTopicListQuery
+    public class GetTopicListQuery:IQuery<GetTopicListQueryResult>
     {
     }
 }

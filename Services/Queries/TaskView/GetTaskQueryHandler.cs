@@ -12,7 +12,9 @@ namespace Services.Queries.TaskView
     {
         public async Task<GetTaskQueryResult> HandleAsync(GetTaskQuery query)
         {
-           // throw new NotImplementedException();
+
+            ViewSincronizor.Sincornize("Task");
+
             var context = new ApplicationContext();
 
            var task = context.Tasks.FirstOrDefault(t => t.Id == query.AggregateId);

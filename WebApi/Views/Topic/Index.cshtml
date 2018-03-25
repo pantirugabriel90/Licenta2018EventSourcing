@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication3.Models.TopicListViewModel>
+﻿@model IEnumerable<Domain.Views.Entities.TopicListElement>
 
 @{
     ViewBag.Title = "title";
@@ -17,12 +17,14 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.IssuedBy)
         </th>
-        <th></th>
+        <th>
+        @Html.DisplayNameFor(model => model.NumberOfReplies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastActivity)
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -32,12 +34,14 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IssuedBy)
             </td>
-            
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfReplies)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastActivity)
+            </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
             </td>

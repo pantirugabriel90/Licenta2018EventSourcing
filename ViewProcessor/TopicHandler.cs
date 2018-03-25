@@ -24,7 +24,7 @@ namespace ViewProcessor
                 IssuedBy = message.IssuedBy,
                 Id = message.AggregateId,
                 Content = message.Content,
-                Date = message.Date,
+                Date = message.TimeStamp.DateTime,
                 Replies = new List<Reply>()
             };
             Context.Topics.Add(newTopic);
@@ -37,6 +37,7 @@ namespace ViewProcessor
 
             topic.Title = message.Title;
             topic.Content = message.Content;
+            topic.LastUpdate = message.TimeStamp.DateTime;
 
             Context.SaveChanges();
         }
@@ -44,8 +45,11 @@ namespace ViewProcessor
         public void Handle(ReplyUpdatedEvent message)
         {
             var topic = Context.Topics.FirstOrDefault(t => t.Id == message.AggregateId);
+            topic.LastUpdate = message.TimeStamp.DateTime;
+
             var reply = topic.Replies.FirstOrDefault(r => r.Id == message.ReplyId);
             reply.Content = message.Content;
+            reply.LastUpdate = message.TimeStamp.DateTime;
 
             Context.SaveChanges();
         }
@@ -53,11 +57,12 @@ namespace ViewProcessor
         public void Handle(NewReplyAddedEvent message)
         {
             var topic = Context.Topics.FirstOrDefault(t => t.Id == message.AggregateId);
+            topic.LastUpdate = message.TimeStamp.DateTime;
 
             var newReply = new Reply
             {
                 Content = message.Content,
-                Date = message.Date,
+                Date = message.TimeStamp.DateTime,
                 Id = message.ReplyId,
                 IssuedBy = message.IssuedBy
             };

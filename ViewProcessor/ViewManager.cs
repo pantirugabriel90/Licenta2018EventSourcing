@@ -29,7 +29,7 @@ namespace ViewProcessor
 
         public void InterogateDatabase()
         {
-            System.Timers.Timer t = new System.Timers.Timer(1000); // set the time (5 min in this case)
+            System.Timers.Timer t = new System.Timers.Timer(1); 
             t.AutoReset = true;
             t.Elapsed += new System.Timers.ElapsedEventHandler(ProcessEvents);
             t.Start();
@@ -82,6 +82,8 @@ namespace ViewProcessor
                 com = new SqlCommand("Delete From Views ", con);
                 com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From Tasks ", con);
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From Reply ", con);
                 com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From Topics ", con);
                 com.ExecuteNonQuery();

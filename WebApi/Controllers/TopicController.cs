@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.Commands.Topic;
 using WebApplication3.Models;
 using CQRSlite.Domain;
+using Services.Queries.TaskView;
+using Services.Queries.TopicListView;
+using Services.Queries.TopicView;
 
 namespace WebApi.Controllers
 {
@@ -17,64 +21,20 @@ namespace WebApi.Controllers
             _session = session;
         }
         // GET: Topic
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var topics = new List<TopicListViewModel>
-            {
-                new TopicListViewModel
-                {
-                    Date = DateTime.UtcNow,
-                    Id = Guid.NewGuid(),
-                    IssuedBy = "gabi",
-                    Title = "ado.net"
-                },
-                new TopicListViewModel
-                {
-                    Date = DateTime.UtcNow,
-                    Id = Guid.NewGuid(),
-                    IssuedBy = "gabi",
-                    Title = "entity framework"
-                }
-            };
-            return View(topics);
+            var queryHandler = new GetTopicListQueryHandler();
+            var result = await queryHandler.HandleAsync(new GetTopicListQuery());
+            return View(result.TopicList);
         }
 
         // GET: Topic/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult>  Details(Guid id)
         {
-            var topic = new TopicViewModel
-            {
-                Content = "what is ado.net",
-                Date = DateTime.UtcNow,
-                Id = Guid.NewGuid(),
-                IssuedBy = "Gabi",
-                Replies = new List<ReplyViewModel>
-                {
-                    new ReplyViewModel
-                    {
-                        Content = "first",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    },new ReplyViewModel
-                    {
-                        Content = "2",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    },new ReplyViewModel
-                    {
-                        Content = "3",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    },new ReplyViewModel
-                    {
-                        Content = "4",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    },new ReplyViewModel
-                    {
-                        Content = "5",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    },new ReplyViewModel
-                    {
-                        Content = "6",Date=DateTime.MaxValue,Id = Guid.NewGuid(),IssuedBy = "gabi",ReplyId = Guid.NewGuid()
-                    }
 
-                },
-                Title = "ado.net"
-
-            };
-            return View(topic);
+            var queryHandler = new GetTopicQueryHandler();
+            var result = await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id });
+            return View(result);
         }
 
         // GET: Topic/Create
@@ -102,10 +62,20 @@ namespace WebApi.Controllers
         }
         
         // GET: Topic/Edit/5
-        public ActionResult UpdateTopic(Guid id)
+        public async Task<ActionResult> UpdateTopic(Guid id)
         {
             ViewBag.AggregateId = id;
-            return View();
+            var queryHandler = new GetTopicQueryHandler();
+            var result = await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id });
+            var model= new UpdateTopicCommand
+            {
+                AggregateId = result.Id,
+                Content = result.Content,
+                IssuedBy = result.IssuedBy,
+                Title = result.Title,
+                UpdateDate = result.Date
+            };
+            return View(model);
         }
 
         // POST: Topic/Edit/5
@@ -119,7 +89,7 @@ namespace WebApi.Controllers
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(updateTopicCommand);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = updateTopicCommand.AggregateId });
             }
             return View();
             
@@ -144,16 +114,29 @@ namespace WebApi.Controllers
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(addNewReplyCommand);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = addNewReplyCommand.AggregateId });
+
             }
             return View();
         }
 
-        public ActionResult UpdateReply(Guid id, Guid replyId)
+        public async Task<ActionResult> UpdateReply(Guid id, Guid replyId)
         {
             ViewBag.AggregateId = id;
             ViewBag.ReplyId = replyId;
-            return View();
+
+            ViewBag.AggregateId = id;
+            var queryHandler = new GetTopicQueryHandler();
+            var result = (await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id })).Replies.FirstOrDefault(r=>r.Id==replyId);
+            var model = new UpdateReplyCommand()
+            {
+                AggregateId = id,
+                Content = result.Content,
+                IssuedBy = result.IssuedBy,
+                Date = result.Date,
+                ReplyId = result.Id
+            };
+            return View(model);
         }
 
         // POST: Topic/Edit/5
@@ -167,7 +150,8 @@ namespace WebApi.Controllers
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(updateReplyCommand);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = updateReplyCommand.AggregateId });
+
             }
             return View();
         }

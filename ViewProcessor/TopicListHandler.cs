@@ -23,7 +23,7 @@ namespace ViewProcessor
             var newTopic = new TopicListElement
             {
                 Title = message.Title,
-                LastActivity = message.Date,
+                LastActivity = message.TimeStamp.DateTime,
                 IssuedBy = message.IssuedBy,
                 NumberOfReplies = 0,
                 Id = message.AggregateId
@@ -37,7 +37,7 @@ namespace ViewProcessor
             var topic = Context.TopicList.FirstOrDefault(t => t.Id == message.AggregateId);
 
             topic.Title = message.Title;
-            topic.LastActivity = message.UpdateDate;
+            topic.LastActivity = message.TimeStamp.DateTime;
 
             Context.SaveChanges();
         }
@@ -46,7 +46,7 @@ namespace ViewProcessor
         {
             var topic = Context.TopicList.FirstOrDefault(t => t.Id == message.AggregateId);
 
-            topic.LastActivity = message.UpdateDate;
+            topic.LastActivity = message.TimeStamp.DateTime;
 
             Context.SaveChanges();
         }
@@ -56,6 +56,7 @@ namespace ViewProcessor
             var topic = Context.TopicList.FirstOrDefault(t => t.Id == message.AggregateId);
 
             topic.NumberOfReplies++;
+            topic.LastActivity = message.TimeStamp.DateTime;
 
             Context.SaveChanges();
         }
