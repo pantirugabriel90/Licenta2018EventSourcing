@@ -33,7 +33,6 @@ namespace WebApi
             services.AddSingleton<ICommandSender>(y => y.GetService<Router>());
             services.AddSingleton<IEventPublisher>(y => y.GetService<Router>());
             services.AddSingleton<IHandlerRegistrar>(y => y.GetService<Router>());
-            services.AddSingleton<IEventPublisher,EventsPublisher>();
             services.AddSingleton<IEventStore>(y=>new SqlEventStore(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRepository>(y => new Repository(y.GetService<IEventStore>(), y.GetService<IEventPublisher>()));
