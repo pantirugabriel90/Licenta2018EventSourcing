@@ -27,7 +27,8 @@ namespace ViewProcessor
             {
                 Title = message.Title,
                 Completed = false,
-                Id = message.AggregateId
+                Id = message.AggregateId,
+                IssuedBy = message.IssuedBy
             };
             Context.TaskList.Add(newTask);
             Context.SaveChanges();

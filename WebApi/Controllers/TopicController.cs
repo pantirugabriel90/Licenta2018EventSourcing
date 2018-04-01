@@ -9,9 +9,12 @@ using CQRSlite.Domain;
 using Services.Queries.TaskView;
 using Services.Queries.TopicListView;
 using Services.Queries.TopicView;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class TopicController : Controller
     {
         private ISession _session { get; }
@@ -51,7 +54,7 @@ namespace WebApi.Controllers
 
             if (ModelState.IsValid)
             {
-                createTopicCommand.IssuedBy = "Pantiru Gabriel";
+                createTopicCommand.IssuedBy = User.Identity.Name;
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(createTopicCommand);
 
@@ -85,7 +88,7 @@ namespace WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                updateTopicCommand.IssuedBy = "Pantiru Gabriel";
+                updateTopicCommand.IssuedBy = User.Identity.Name;
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(updateTopicCommand);
 
@@ -110,7 +113,7 @@ namespace WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                addNewReplyCommand.IssuedBy = "Pantiru Gabriel";
+                addNewReplyCommand.IssuedBy = User.Identity.Name;
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(addNewReplyCommand);
 
@@ -146,7 +149,7 @@ namespace WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                updateReplyCommand.IssuedBy = "Pantiru Gabriel";
+                updateReplyCommand.IssuedBy = User.Identity.Name;
                 var topicCommandHandler = new TopicCommandHandler(_session);
                 await topicCommandHandler.Handle(updateReplyCommand);
 

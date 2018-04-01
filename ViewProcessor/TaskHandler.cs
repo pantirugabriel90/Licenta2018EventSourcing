@@ -29,6 +29,7 @@ namespace ViewProcessor
                 Date = message.TimeStamp.DateTime,
                 Hours = message.Hours,
                 LoggedHours = 0,
+                IssuedBy = message.IssuedBy,
                 Tags = new List<Tag>()
 
             };

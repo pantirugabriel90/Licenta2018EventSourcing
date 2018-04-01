@@ -22,6 +22,7 @@ namespace DataLayer
         public DbSet<View> Views { get; set; }
 
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

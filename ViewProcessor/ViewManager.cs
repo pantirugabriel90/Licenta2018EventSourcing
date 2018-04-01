@@ -55,9 +55,11 @@ namespace ViewProcessor
                             if (method != null)
                                 method.Invoke(viewHandler.Value, new object[] { taskCreatedEvent });
 
-                            //viewHandler.Value.Handle(taskCreatedEvent);
-                            Context.Views.FirstOrDefault(v => v.ViewName == viewHandler.Key).NumberOfProcessedEvent++;
-                            Context.SaveChanges();
+                        //viewHandler.Value.Handle(taskCreatedEvent);
+                        var view = Context.Views.FirstOrDefault(v => v.ViewName == viewHandler.Key);
+                        view.NumberOfProcessedEvent++;
+                        view.DateOfLastProcessedEvent = DateTimeOffset.Now;
+                        Context.SaveChanges();
                     }
 
                 }

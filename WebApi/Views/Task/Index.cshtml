@@ -33,17 +33,21 @@
                 </td>
 
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="UpdateTask" asp-route-id="@item.Id">Update Task</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.Identity.Name == item.IssuedBy)
+                    {
+                    @:|
+
+                    <a asp-action="UpdateTask" asp-route-id="@item.Id">Update Task</a> @:|
 
                     <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">@if (!item.Completed)
-                                                                             {
+                    {
                                                                                  @:Mark completed
                                                                              }
-                                                                             else
-                                                                             {
+                    else
+                    {
                                                                                  @:Reopen task
-                                                                             }</a>
+                                                                             }</a>}
                 </td>
             </tr>
         }

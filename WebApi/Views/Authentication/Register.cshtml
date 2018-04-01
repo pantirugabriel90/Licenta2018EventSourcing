@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_Layout";
+}
+
+<h2>Register</h2>
+
+<form asp-controller="Authentication" asp-action="Register">
+    <div>
+        <label>Username</label>
+        <input type="text" name="username" />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input type="password" name="password" />
+    </div>
+
+    <div>
+        <label>Retype password</label>
+        <input type="password" name="repassword" />
+    </div>
+
+    <input type="submit" />
+</form>
+
+<a asp-action="Login">Already have an account? Sign in!</a>

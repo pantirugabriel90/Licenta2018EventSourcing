@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CQRSlite.Domain;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Commands.Task;
 using Services.Queries.TaskListView;
@@ -11,6 +13,7 @@ using WebApplication3.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class TaskController : Controller
     {
         private ISession _session { get; }
@@ -45,7 +48,7 @@ namespace WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                createTaskCommand.IssuedBy = "Pantiru Gabriel";
+                createTaskCommand.IssuedBy = User.Identity.Name;
                 var taskCommandHandler = new TaskCommandHandler(_session);
                 await taskCommandHandler.Handle(createTaskCommand);
 
@@ -66,6 +69,7 @@ namespace WebApi.Controllers
                 CompletedStatus = task.CompletedStatus,
                 Hours = task.Hours,
                 LoggedHours = task.LoggedHours,
+                IssuedBy = User.Identity.Name
             };
             return View(model);
         }
@@ -76,7 +80,7 @@ namespace WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                updateTask.IssuedBy = "Pantiru Gabriel";
+                updateTask.IssuedBy = User.Identity.Name;
                 var taskCommandHandler = new TaskCommandHandler(_session);
                 await taskCommandHandler.Handle(updateTask);
 
@@ -91,7 +95,7 @@ namespace WebApi.Controllers
         {
 
             var taskCommandHandler = new TaskCommandHandler(_session);
-            var taskCreatedCommand = new ChangeTaskStatusCommand(id, "abig");
+            var taskCreatedCommand = new ChangeTaskStatusCommand(id, User.Identity.Name);
             await taskCommandHandler.Handle(taskCreatedCommand);
             
             return RedirectToAction(nameof(Index));

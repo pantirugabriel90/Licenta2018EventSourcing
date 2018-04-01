@@ -13,6 +13,10 @@ using CQRSlite.Events;
 using Domain;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using WebApi.Models;
+using WebApi.Auth;
 
 namespace WebApi
 {
@@ -28,7 +32,18 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<User, IdentityRole>()
+                                                               .AddEntityFrameworkStores<IdentityContext>()
+                                                               .AddDefaultTokenProviders();
+            services.AddDbContext<IdentityContext>(options =>
+                                                              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Authentication/Login/";
+                options.AccessDeniedPath = "/Authentication/Login/";
+            });
+
             services.AddScoped<ISession, Session>();
             services.AddSingleton<ICommandSender>(y => y.GetService<Router>());
             services.AddSingleton<IEventPublisher>(y => y.GetService<Router>());
@@ -51,7 +66,9 @@ namespace WebApi
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
@@ -59,6 +76,7 @@ namespace WebApi
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

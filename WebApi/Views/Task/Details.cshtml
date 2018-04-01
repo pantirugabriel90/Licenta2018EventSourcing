@@ -36,7 +36,7 @@
         <dd>
             @Html.DisplayFor(model => model.LoggedHours)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.CompletedStatus)
         </dt>
@@ -45,20 +45,21 @@
         </dd>
     </dl>
     @{
-            var taskId = Model.Id;
+        var taskId = Model.Id;
     }
 
-    <a asp-action="Delete" asp-route-id="@taskId">Delete</a> |
-    <a asp-action="UpdateTask" asp-route-id="@taskId">Update Task</a> | 
-    <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
-        @if (!Model.CompletedStatus)
-        {
-            @:Mark completed
-        }
-        else
-        {
-            @:Reopen task
+    @if (User.Identity.Name == Model.IssuedBy)
+    {
+        <a asp-action="UpdateTask" asp-route-id="@taskId">Update Task</a> @:|
+        <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
+            @if (!Model.CompletedStatus)
+            {
+                @:Mark completed
             }
-    </a>
-
+            else
+            {
+                @:Reopen task
+            }
+        </a>
+    }
 </div>

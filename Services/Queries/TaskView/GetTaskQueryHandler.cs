@@ -27,7 +27,8 @@ namespace Services.Queries.TaskView
                 Date = task.Date,
                 Hours = task.Hours,
                 LoggedHours = task.LoggedHours,
-                Tags= task.Tags
+                Tags= task.Tags,
+                IssuedBy = task.IssuedBy
             };
         }
     }
