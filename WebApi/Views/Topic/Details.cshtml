@@ -12,12 +12,8 @@
 <div>
 
     <hr />
+    <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary">New Reply</button></a>
 
-    <a asp-action="AddNewReply" asp-route-id="@topicId">New Reply</a>
-    @if (User.Identity.Name == Model.IssuedBy)
-    {
-        <a asp-action="UpdateTopic" asp-route-id="@topicId">Update Topic</a>
-    }
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)
@@ -43,36 +39,41 @@
         <dd>
             @Html.DisplayFor(model => model.IssuedBy)
         </dd>
-
-    </dl>
-    @foreach (var item in Model.Replies)
-    {
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(modelItem => item.Content)
-        </dt>
+        @if (User.Identity.Name == Model.IssuedBy)
+        {
         <dd>
-            @Html.DisplayFor(modelItem => item.Content)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(modelItem => item.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(modelItem => item.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(modelItem => item.IssuedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(modelItem => item.IssuedBy)
-        </dd>
-        @if (User.Identity.Name == item.IssuedBy)
-        { 
-        <dd>
-            <a asp-action="UpdateReply" asp-route-Id="@topicId" asp-route-replyId="@item.Id">Edit</a>
+            <a asp-action="UpdateTopic" asp-route-id="@topicId"><button type="button" class="btn btn-primary">Update Topic</button></a>
         </dd>
         }
     </dl>
+    @foreach (var item in Model.Replies)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.Content)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Content)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.Date)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Date)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(modelItem => item.IssuedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.IssuedBy)
+            </dd>
+            @if (User.Identity.Name == item.IssuedBy)
+            {
+            <dd>
+                <a asp-action="UpdateReply" asp-route-id="@topicId"  asp-route-replyId="@item.Id"><button type="button" class="btn btn-primary">Edit</button></a>
+            </dd>
+            }
+        </dl>
     }
 
 </div>

@@ -50,16 +50,19 @@
 
     @if (User.Identity.Name == Model.IssuedBy)
     {
-        <a asp-action="UpdateTask" asp-route-id="@taskId">Update Task</a> @:|
+        <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
+        <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
         <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
-            @if (!Model.CompletedStatus)
-            {
-                @:Mark completed
-            }
-            else
-            {
-                @:Reopen task
-            }
+            <button type="button" class="btn btn-primary">
+                @if (!Model.CompletedStatus)
+                {
+                    @:Mark completed
+}
+                else
+                {
+                    @:Reopen task
+}
+            </button>
         </a>
     }
 </div>
