@@ -59,6 +59,7 @@ namespace WebApi.Controllers
 
         public async Task<ActionResult> UpdateTask(Guid id)
         {
+            ViewBag.AggregateId = id;
             var queryHandler = new GetTaskQueryHandler();
             var task = await queryHandler.HandleAsync(new GetTaskQuery { AggregateId = id });
             var model = new UpdateTaskCommand

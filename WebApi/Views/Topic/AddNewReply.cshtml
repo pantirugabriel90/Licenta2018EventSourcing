@@ -5,22 +5,30 @@
     Layout = "_Layout";
 }
 @{
-    var aggregateId = (Guid) ViewBag.AggregateId;
+    var aggregateId = (Guid)ViewBag.AggregateId;
 
 }
+<div style="margin-top:30px;">
+    <a asp-action="Details" asp-route-id=@aggregateId>
+        <button type="button" class="btn btn-secondary float-right">Back to topic</button>
+    </a>
+</div>
+<div style="padding-top:1px;">
 
-<h2>New reply</h2>
+    <h2 style="margin-top:5%;">New reply</h2>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddNewReply">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          
+
             <div class="form-group">
                 <input type="hidden" asp-for="AggregateId" value=@aggregateId />
 
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control"/>
+                <input asp-for="Content" class="form-control" />
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,9 +37,7 @@
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Details" asp-route-id=@aggregateId>Back to Topic</a>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -5,12 +5,11 @@
     Layout = "_Layout";
 }
 
-<h2>Tasks</h2>
-<hr />
-<p>
-    
-    <a asp-action="Create"><button type="button" class="btn btn-primary">New Task</button></a>
-</p>
+<h2 style="margin-top:25px;">Tasks</h2>
+<hr/>
+
+    <a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Task</button></a>
+
 <table class="table table-dark table-hover">
     <thead>
         <tr>
@@ -20,15 +19,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.Completed)
             </th>
-            <th>Actions</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class='clickable-row' data-href='url://'>
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
                 </td>
                 <td>
                     @if (item.Completed)
@@ -42,41 +43,27 @@
                 </td>
 
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
                     @if (User.Identity.Name == item.IssuedBy)
                     {
-                        @:|
 
-                        <a asp-action="UpdateTask" asp-route-id="@item.Id">Update Task</a> @:|
+                        <a asp-action="UpdateTask" asp-route-id="@item.Id"><button type="button" class="btn btn-secondary">Update Task</button></a>
+
+                        @:&emsp;
 
                         <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">
                             @if (!item.Completed)
                             {
-                                @:Mark completed
+                                <button type="button" class="btn btn-success">Complete Task</button>
                             }
                             else
                             {
-                                @:Reopen task
+                                <button type="button" class="btn btn-secondary">Reopen Task</button>
                             }
-                        </a>}
+                        </a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<script  src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript">
-
-
-    $(document).ready(function () {
-        //your code here
-        alert("Hello! I am an alert box!");
-
-        alert("cum asa");
-        $jQuery(document).ready(function ($) {
-            $(".clickable-row").click(function () {
-                window.location = $(this).data("href");
-            });
-        });
-    });
-   
-</script>

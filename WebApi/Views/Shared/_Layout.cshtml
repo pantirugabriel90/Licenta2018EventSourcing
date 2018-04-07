@@ -27,20 +27,21 @@
 <body>
     <nav class="navbar navbar-static-top navbar-light bg-info justify-content-between fixed-top">
         @*<a class="navbar-brand" href="#">Brand</a>*@
-        <ul class="nav navbar-header">
-            <li class="nav-item active"> <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Main page</a></li>
-            <li class="nav-item active"><a asp-area="" asp-controller="Task" asp-action="Index" class="nav-link">Tasks <span class="sr-only">(current)</span></a></li>
-            <li class="nav-item active mr-auto"><a asp-area="" asp-controller="Topic" asp-action="Index" class="nav-link">Topics <span class="sr-only">(current)</span></a></li>
+        <ul class="nav navbar-default btn-group">
+            <li class="nav-item active"> <a asp-area="" asp-controller="Task" asp-action="Index" class="navbar-brand"><button type="button" class="btn">Main Page</button></a></li>
+            <li class="nav-item active"><a asp-area="" asp-controller="Task" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Tasks</button> <span class="sr-only">(current)</span></a></li>
+            <li class="nav-item active mr-auto"><a asp-area="" asp-controller="Topic" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Topics</button> <span class="sr-only">(current)</span></a></li>
         </ul>
         <ul class="nav navbar-header">
 
             @if (User.Identity.IsAuthenticated)
-            {
+    {
 
-                <li class="nav-item active flex-row-reverse"><div class="nav-item">Hello, @User.Identity.Name!<span class="sr-only">(current)</span></div></li>
-                <li class="nav-item active"><a asp-area="" asp-controller="Authentication" asp-action="Logout" class="nav-link">Logout <span class="sr-only">(current)</span></a></li>
+        <li class="nav-item active flex-row-reverse"><div class="nav-item" style="padding-top:14px;">Hello, @User.Identity.Name!<span class="sr-only">(current)</span></div></li>
+        <li class="nav-item active"><a asp-area="" asp-controller="Authentication" asp-action="Logout" class="nav-link"><button type="button" class="btn btn-warning">Logout</button> <span class="sr-only">(current)</span></a></li>
 
-            }
+}
+
         </ul>
     </nav>
     @*<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -67,7 +68,7 @@
             </div>
         </nav>*@
 
-    <div class="container body-content h-100">
+    <div class="container body-content h-100 w-100" >
         @RenderBody()
 
     </div>

@@ -5,22 +5,23 @@
     Layout = "_Layout";
 }
 
-<h2>Topic</h2>
 @{
     var topicId = Model.Id;
 }
+<div style="margin-top:30px;">
+    <a asp-action="Index">
+        <button type="button" class="btn btn-secondary float-right" >Back to List</button>
+    </a>
+</div>
+
 <div>
-
+    <div style="padding-top:1px;">
+        <h2 style="margin-top:5%;"> @Html.DisplayFor(model => model.Title)</h2>
+    </div>
     <hr />
-    <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary">New Reply</button></a>
+    <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary float-right">New Reply</button></a>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    <dl class="border dl-horizontal" style="margin-top:70px;">
         <dt>
             @Html.DisplayNameFor(model => model.Content)
         </dt>
@@ -41,14 +42,14 @@
         </dd>
         @if (User.Identity.Name == Model.IssuedBy)
         {
-        <dd>
-            <a asp-action="UpdateTopic" asp-route-id="@topicId"><button type="button" class="btn btn-primary">Update Topic</button></a>
-        </dd>
+            <dd>
+                <a asp-action="UpdateTopic" asp-route-id="@topicId"><button type="button" class="btn btn-primary">Update Topic</button></a>
+            </dd>
         }
     </dl>
     @foreach (var item in Model.Replies)
     {
-        <dl class="dl-horizontal">
+        <dl class="border dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(modelItem => item.Content)
             </dt>
@@ -69,11 +70,17 @@
             </dd>
             @if (User.Identity.Name == item.IssuedBy)
             {
-            <dd>
-                <a asp-action="UpdateReply" asp-route-id="@topicId"  asp-route-replyId="@item.Id"><button type="button" class="btn btn-primary">Edit</button></a>
-            </dd>
+                <dd>
+                    <a asp-action="UpdateReply" asp-route-id="@topicId" asp-route-replyId="@item.Id"><button type="button" class="btn btn-primary">Edit</button></a>
+                </dd>
             }
         </dl>
+    }
+    @if (Model.Replies.Count() > 2)
+    {
+        <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary float-right" style="margin-bottom:5%;">New Reply</button></a>
+
+
     }
 
 </div>
