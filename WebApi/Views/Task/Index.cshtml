@@ -3,16 +3,17 @@
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
+    var tasks = Model.ToList();
 }
 
-<h2 style="margin-top:25px;">Tasks</h2>
-<hr/>
+<h2 style="margin-top:25px;">My tasks</h2>
+<hr />
 
-    <a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Task</button></a>
+<a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Task</button></a>
 
-<table class="table table-dark table-hover">
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -25,45 +26,90 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </a>
-                </td>
-                <td>
-                    @if (item.Completed)
-                    {
-                        @:&check;
-                    }
-                    else
-                    {
-                        @:&cross;
-                    }
-                </td>
+            @if (User.Identity.Name == item.IssuedBy)
+            {
+                <tr class="table-secondary">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.Completed)
+                        {
+                            @:&check;
+                        }
+                        else
+                        {
+                            @:&cross;
+                        }
+                    </td>
 
-                <td>
+                    <td>
 
-                    @if (User.Identity.Name == item.IssuedBy)
-                    {
 
-                        <a asp-action="UpdateTask" asp-route-id="@item.Id"><button type="button" class="btn btn-secondary">Update Task</button></a>
 
-                        @:&emsp;
+                        <a asp-action="UpdateTask" asp-route-id="@item.Id"><button type="button" class="btn btn-secondary task-list-button">Update Task</button></a>
+
+                        &emsp;
 
                         <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">
                             @if (!item.Completed)
                             {
-                                <button type="button" class="btn btn-success">Complete Task</button>
+                                <button type="button" class="btn btn-success task-list-button">Complete Task</button>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-secondary">Reopen Task</button>
+                                <button type="button" class="btn btn-secondary task-list-button">Reopen Task</button>
                             }
                         </a>
-                    }
-                </td>
-            </tr>
+                        
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+<h2 style="margin-top:25px;">Other's tasks</h2>
+<hr />
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Completed)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IssuedBy!=null && User.Identity.Name != item.IssuedBy)
+            {
+                <tr class="table-secondary">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.Completed)
+                        {
+                            @:&check;
+                        }
+                        else
+                        {
+                            @:&cross;
+                        }
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

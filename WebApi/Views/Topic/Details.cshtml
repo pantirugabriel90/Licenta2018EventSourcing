@@ -10,7 +10,7 @@
 }
 <div style="margin-top:30px;">
     <a asp-action="Index">
-        <button type="button" class="btn btn-secondary float-right" >Back to List</button>
+        <button type="button" class="btn btn-secondary float-right">Back to List</button>
     </a>
 </div>
 
@@ -20,67 +20,78 @@
     </div>
     <hr />
     <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary float-right">New Reply</button></a>
+    <table class="table table-striped" style="margin-top:70px;">
+        <thead>
 
-    <dl class="border dl-horizontal" style="margin-top:70px;">
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IssuedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IssuedBy)
-        </dd>
-        @if (User.Identity.Name == Model.IssuedBy)
-        {
-            <dd>
-                <a asp-action="UpdateTopic" asp-route-id="@topicId"><button type="button" class="btn btn-primary">Update Topic</button></a>
-            </dd>
-        }
-    </dl>
-    @foreach (var item in Model.Replies)
-    {
-        <dl class="border dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(modelItem => item.Content)
-            </dt>
-            <dd>
-                @Html.DisplayFor(modelItem => item.Content)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(modelItem => item.Date)
-            </dt>
-            <dd>
-                @Html.DisplayFor(modelItem => item.Date)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(modelItem => item.IssuedBy)
-            </dt>
-            <dd>
-                @Html.DisplayFor(modelItem => item.IssuedBy)
-            </dd>
-            @if (User.Identity.Name == item.IssuedBy)
+            <tr class="table-primary">
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Content)
+                </th>*@
+                <th>
+                    @Html.DisplayFor(model => model.Content)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>*@
+                <th>
+                    @Html.DisplayFor(model => model.Date)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.IssuedBy)
+                </th>*@
+                <th>
+                    @Html.DisplayFor(model => model.IssuedBy)
+                </th>
+                <th>
+
+                    @if (User.Identity.Name == Model.IssuedBy)
+                    {
+                        <a asp-action="UpdateTopic" asp-route-id="@topicId"><button type="button" class="btn btn-primary">Update Topic</button></a>
+                    }
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Replies)
             {
-                <dd>
-                    <a asp-action="UpdateReply" asp-route-id="@topicId" asp-route-replyId="@item.Id"><button type="button" class="btn btn-primary">Edit</button></a>
-                </dd>
+                <tr>
+
+                    @*<td>
+                        @Html.DisplayNameFor(modelItem => item.Content)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    @*<td>
+                        @Html.DisplayNameFor(modelItem => item.Date)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    @*<td>
+                        @Html.DisplayNameFor(modelItem => item.IssuedBy)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IssuedBy)
+                    </td>
+                    <td>
+
+                        @if (User.Identity.Name == item.IssuedBy)
+                        {
+                            <a asp-action="UpdateReply" asp-route-id="@topicId" asp-route-replyId="@item.Id"><button type="button" class="btn btn-primary">Edit</button></a>
+                        }
+                    </td>
+
+                </tr>
             }
-        </dl>
-    }
+
+        </tbody>
+
+    </table>
     @if (Model.Replies.Count() > 2)
     {
         <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary float-right" style="margin-bottom:5%;">New Reply</button></a>
-
-
     }
-
 </div>

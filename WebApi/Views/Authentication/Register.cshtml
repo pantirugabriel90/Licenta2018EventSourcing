@@ -4,25 +4,88 @@
     Layout = "_Layout";
 }
 
-<h2>Register</h2>
 
-<form asp-controller="Authentication" asp-action="Register">
-    <div>
-        <label>Username</label>
-        <input type="text" name="username" />
-    </div>
 
-    <div>
-        <label>Password</label>
-        <input type="password" name="password" />
-    </div>
+<div class="container d-flex h-100 w-100" id="login-form-wrapper">
+    <form role="form" asp-action="Register" asp-controller="Authentication" method="post" class="form-horizontal h-100">
+        <div class="row align-self-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-12">
+                <h2>Please Register</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-12">
+                <div class="form-group has-danger">
+                    <label class="sr-only" for="username">E-Mail Address</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                        <input type="text" name="username" class="form-control" id="email"
+                               placeholder="username" required autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
 
-    <div>
-        <label>Retype password</label>
-        <input type="password" name="repassword" />
-    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="sr-only" for="password">Password</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                        <input type="password" name="password" class="form-control" id="password"
+                               placeholder="Password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="sr-only" for="password">Password</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                        <input type="password" name="password" class="form-control" id="password"
+                               placeholder="Password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-12" style="padding-top: .35rem">
+                <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                    <label class="form-check-label">
+                        <input class="form-check-input" name="remember"
+                               type="checkbox">
+                        <span style="padding-bottom: .15rem">Remember me</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row align-self-center" style="padding-top: 1rem">
+            <div class="col-md-3"></div>
 
-    <input type="submit" />
-</form>
+            <div class="col-md-12 container">
 
-<a asp-action="Login">Already have an account? Sign in!</a>
+                <div class="" style="padding-top: 1rem;display:flex">
+
+                    <button type="submit" class="btn btn-success" style="margin-right:20px;margin-left:20px;"><i class="fa fa-sign-in"></i> Register</button>
+                    <a asp-action="Login">Already have an account? Sign in!</a>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

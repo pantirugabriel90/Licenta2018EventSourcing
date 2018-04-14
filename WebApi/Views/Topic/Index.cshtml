@@ -11,9 +11,9 @@
     <a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Topic</button></a>
 </p>
 
-<table class="table table-dark table-hover">
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -26,14 +26,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.LastActivity)
             </th>
-            <th></th>
-
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="table-secondary" >
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">
                         @Html.DisplayFor(modelItem => item.Title)
