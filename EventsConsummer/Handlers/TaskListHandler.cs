@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Views.Entities;
 
-namespace ViewProcessor
+namespace EventsConsummer.Handlers
 {
    
     public class TaskListHandler :IEventsHandler

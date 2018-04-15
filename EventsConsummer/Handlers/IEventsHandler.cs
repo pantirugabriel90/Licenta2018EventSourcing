@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Domain.Events;
 
-namespace ViewProcessor
+namespace EventsConsummer.Handlers
 {
     public interface IEventsHandler
     {

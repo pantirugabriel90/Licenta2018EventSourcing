@@ -15,9 +15,6 @@ namespace EventsConsummer
             viewManager.RestoreAllViews();
             viewManager.InterogateDatabase();
             Console.ReadKey();
-
         }
-
-
     }
 }

@@ -84,6 +84,7 @@ namespace WebApi.Controllers
         }
         public async Task<IActionResult> Logout()
         {
+            await _signInManager.SignOutAsync();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Authentication");
         }

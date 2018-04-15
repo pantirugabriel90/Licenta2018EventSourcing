@@ -6,7 +6,7 @@ using DataLayer;
 using Domain.Events;
 using Domain.Views.Entities;
 
-namespace ViewProcessor
+namespace EventsConsummer.Handlers
 {
     public class TaskHandler : IEventsHandler
     {

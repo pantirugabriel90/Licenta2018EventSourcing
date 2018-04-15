@@ -12,9 +12,7 @@ namespace CQRSlite.Events
         public Type AggregateType { get; set; }
         public DateTimeOffset TimeStamp { get; set; }
         public string Data { get; set; }
-
         public string IssuedBy { get; set; }
-        public string CorrelationId { get; set; }
 
         public EventBase()
         {
