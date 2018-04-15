@@ -5,10 +5,15 @@
     Layout = "_Layout";
 }
 
-<h2>Task</h2>
+<div style="margin-top:30px;">
+    <a asp-action="Index">
+        <button type="button" class="btn btn-secondary float-right">Back to List</button>
+    </a>
+</div>
 
+<div class="container  h-100" style="margin-top:15px;padding-top:1px;" id="task-details">
+    <h2 style="margin-top:5px;">Task</h2>
 
-<div>
     <hr />
     <dl class="dl-horizontal">
 
@@ -50,16 +55,19 @@
 
     @if (User.Identity.Name == Model.IssuedBy)
     {
-        <a asp-action="UpdateTask" asp-route-id="@taskId">Update Task</a> @:|
+        <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
+        <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
         <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
-            @if (!Model.CompletedStatus)
-            {
-                @:Mark completed
-            }
-            else
-            {
-                @:Reopen task
-            }
+            <button type="button" class="btn btn-primary">
+                @if (!Model.CompletedStatus)
+                {
+                    @:Mark completed
+}
+                else
+                {
+                    @:Reopen task
+}
+            </button>
         </a>
     }
 </div>

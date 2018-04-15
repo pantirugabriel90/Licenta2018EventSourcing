@@ -5,47 +5,49 @@
     Layout = "_Layout";
 }
 
-<h2>Topics</h2>
+<h2 style="margin-top:25px;">Topics</h2>
+<hr />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Topic</button></a>
 </p>
 
-<table class="table">
+<table class="table table-hover">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IssuedBy)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model => model.NumberOfReplies)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastActivity)
-        </th>
-    </tr>
+        <tr class="table-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssuedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfReplies)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastActivity)
+            </th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IssuedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfReplies)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastActivity)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr class="table-secondary" >
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssuedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfReplies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastActivity)
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>

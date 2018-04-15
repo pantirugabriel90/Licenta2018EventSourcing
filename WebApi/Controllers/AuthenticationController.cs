@@ -51,32 +51,12 @@ namespace WebApi.Controllers
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Task");
                 }
                 
             }
 
-            // If we got this far, something failed, redisplay form
             return View();
-
-            //var user = context.Users.FirstOrDefault(x => x.Username == username);
-            //if (user == null)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Invalid user");
-            //    return View();
-            //}
-            //if (user.Password != password)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Invalid password");
-            //    return View();
-            //}
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Name, username)
-            //};
-            //var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-            //return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> Register(UserModel model)
@@ -95,10 +75,9 @@ namespace WebApi.Controllers
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Task");
 
                 }
-
 
             }
             return View();

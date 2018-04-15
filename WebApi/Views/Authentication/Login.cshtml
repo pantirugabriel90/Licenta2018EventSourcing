@@ -1,53 +1,78 @@
 ﻿@{
-    Layout = "_Layout"; 
+    Layout = "_Layout";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- Bootstrap Core CSS -->
-    <link href="~/lib/bootstrap4/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="~/layoutfiles/dist/css/sb-admin-2.css" rel="stylesheet">
+ <div class="container d-flex h-100 w-100" id="login-form-wrapper">
+     <form role="form" asp-action="Login" asp-controller="Authentication" method="post" class="form-horizontal h-100">
+         <div class="row align-self-center">
+             <div class="col-md-3"></div>
+             <div class="col-md-12">
+                 <h2>Please Login</h2>
+                 <hr>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-md-3"></div>
+             <div class="col-md-12">
+                 <div class="form-group has-danger">
+                     <label class="sr-only" for="username">E-Mail Address</label>
+                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                         <input type="text" name="username" class="form-control" id="email"
+                                placeholder="username" required autofocus>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3">
+                 <div class="form-control-feedback">
+                  
+                 </div>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-md-3"></div>
+             <div class="col-md-12">
+                 <div class="form-group">
+                     <label class="sr-only" for="password">Password</label>
+                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                         <input type="password" name="password" class="form-control" id="password"
+                                placeholder="Password" required>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3">
+                 <div class="form-control-feedback">
+                     <span class="text-danger align-middle">
+                         <!-- Put password error message here -->
+                     </span>
+                 </div>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-md-3"></div>
+             <div class="col-md-12" style="padding-top: .35rem">
+                 <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                     <label class="form-check-label">
+                         <input class="form-check-input" name="remember"
+                                type="checkbox">
+                         <span style="padding-bottom: .15rem">Remember me</span>
+                     </label>
+                 </div>
+             </div>
+         </div>
+         <div class="row align-self-center" style="padding-top: 1rem">
+             <div class="col-md-3"></div>
 
+             <div class="col-md-12 container">
 
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Please Sign In</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" asp-action="Login" asp-controller="Authentication" method="post">
-                            <fieldset>
-                                <div class="form-group">
-                                    <!--modified 29.01-->
-                                    <input class="form-control" placeholder="Username" name="username" type="text" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" value="Login" class="btn btn-primary" />
-                            </fieldset>
-                            <div asp-validation-summary="All"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+                 <div class="" style="padding-top: 1rem;display:flex">
+
+                     <button type="submit" class="btn btn-success" style="margin-right:20px;margin-left:20px;"><i class="fa fa-sign-in"></i> Login</button>
+                     <a asp-action="Register">Don't have an account? Register here!</a>
+
+                 </div>
+             </div>
+         </div>
+     </form>
     </div>
-
-    <a asp-action="Register">Don't have an account yet? Sign up!</a>
-
-</body>
-
-</html>

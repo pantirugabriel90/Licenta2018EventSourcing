@@ -2,7 +2,24 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<h2>Update Task</h2>
+
+
+
+@{
+    var aggregateId = (Guid)ViewBag.AggregateId;
+
+}
+
+<div style="margin-top:30px;">
+    <a asp-action="Details" asp-route-id=@aggregateId>
+        <button type="button" class="btn btn-secondary float-right">Back to Task</button>
+    </a>
+</div>
+<div style="padding-top:1px;">
+
+    <h2 style="margin-top:5%;">Update Task</h2>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,7 +54,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

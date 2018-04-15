@@ -3,15 +3,17 @@
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
+    var tasks = Model.ToList();
 }
 
-<h2>Tasks</h2>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h2 style="margin-top:25px;">My tasks</h2>
+<hr />
+
+<a asp-action="Create"><button type="button" class="btn btn-primary float-right" style="margin-bottom:12px;">New Task</button></a>
+
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -24,32 +26,90 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Completed)
-                </td>
+            @if (User.Identity.Name == item.IssuedBy)
+            {
+                <tr class="table-secondary">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.Completed)
+                        {
+                            @:&check;
+                        }
+                        else
+                        {
+                            @:&cross;
+                        }
+                    </td>
 
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    @if (User.Identity.Name == item.IssuedBy)
-                    {
-                    @:|
+                    <td>
 
-                    <a asp-action="UpdateTask" asp-route-id="@item.Id">Update Task</a> @:|
 
-                    <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">@if (!item.Completed)
-                    {
-                                                                                 @:Mark completed
-                                                                             }
-                    else
-                    {
-                                                                                 @:Reopen task
-                                                                             }</a>}
-                </td>
-            </tr>
+
+                        <a asp-action="UpdateTask" asp-route-id="@item.Id"><button type="button" class="btn btn-secondary task-list-button">Update Task</button></a>
+
+                        &emsp;
+
+                        <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">
+                            @if (!item.Completed)
+                            {
+                                <button type="button" class="btn btn-success task-list-button">Complete Task</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary task-list-button">Reopen Task</button>
+                            }
+                        </a>
+                        
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+<h2 style="margin-top:25px;">Other's tasks</h2>
+<hr />
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Completed)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IssuedBy!=null && User.Identity.Name != item.IssuedBy)
+            {
+                <tr class="table-secondary">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.Completed)
+                        {
+                            @:&check;
+                        }
+                        else
+                        {
+                            @:&cross;
+                        }
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

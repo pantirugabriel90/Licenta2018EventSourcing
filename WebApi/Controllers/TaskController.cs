@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CQRSlite.Domain;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -30,6 +31,7 @@ namespace WebApi.Controllers
             return View(result.TaskList);
         }
 
+       
         public async  Task<ActionResult> Details(Guid id)
         {
             var queryHandler = new GetTaskQueryHandler();
@@ -59,6 +61,7 @@ namespace WebApi.Controllers
 
         public async Task<ActionResult> UpdateTask(Guid id)
         {
+            ViewBag.AggregateId = id;
             var queryHandler = new GetTaskQueryHandler();
             var task = await queryHandler.HandleAsync(new GetTaskQuery { AggregateId = id });
             var model = new UpdateTaskCommand
