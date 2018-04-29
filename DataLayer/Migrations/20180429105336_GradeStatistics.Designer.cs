@@ -11,9 +11,10 @@ using System;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20180429105336_GradeStatistics")]
+    partial class GradeStatistics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,28 +100,18 @@ namespace DataLayer.Migrations
                     b.ToTable("Reply");
                 });
 
-            modelBuilder.Entity("Domain.ContextEntities.StudentStatistics", b =>
+            modelBuilder.Entity("Domain.ContextEntities.StudentGrade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CompletedTasks");
-
                     b.Property<double>("Grade");
-
-                    b.Property<int>("LoggedHours");
-
-                    b.Property<int>("NumberOfReplies");
-
-                    b.Property<int>("StartedTasks");
-
-                    b.Property<int>("StarterTopics");
 
                     b.Property<string>("Username");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentStatistics");
+                    b.ToTable("StudentGrades");
                 });
 
             modelBuilder.Entity("Domain.ContextEntities.Tag", b =>

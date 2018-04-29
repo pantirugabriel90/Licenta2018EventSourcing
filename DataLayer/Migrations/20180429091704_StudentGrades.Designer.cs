@@ -11,9 +11,10 @@ using System;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20180429091704_StudentGrades")]
+    partial class StudentGrades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,28 +56,6 @@ namespace DataLayer.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("Domain.ContextEntities.GradeStatistics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("CompletedTasks");
-
-                    b.Property<double>("Grade");
-
-                    b.Property<double>("LoggedHOurs");
-
-                    b.Property<double>("NumberOfReplies");
-
-                    b.Property<double>("StartedTasks");
-
-                    b.Property<double>("StartedTopics");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GradesStatistics");
-                });
-
             modelBuilder.Entity("Domain.ContextEntities.Reply", b =>
                 {
                     b.Property<Guid>("Id")
@@ -99,28 +78,18 @@ namespace DataLayer.Migrations
                     b.ToTable("Reply");
                 });
 
-            modelBuilder.Entity("Domain.ContextEntities.StudentStatistics", b =>
+            modelBuilder.Entity("Domain.ContextEntities.StudentGrade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CompletedTasks");
-
                     b.Property<double>("Grade");
-
-                    b.Property<int>("LoggedHours");
-
-                    b.Property<int>("NumberOfReplies");
-
-                    b.Property<int>("StartedTasks");
-
-                    b.Property<int>("StarterTopics");
 
                     b.Property<string>("Username");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentStatistics");
+                    b.ToTable("StudentGrades");
                 });
 
             modelBuilder.Entity("Domain.ContextEntities.Tag", b =>

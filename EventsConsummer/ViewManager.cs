@@ -29,7 +29,8 @@ namespace ViewProcessor
                 {"TaskList", new TaskListHandler()},
                 {"Task", new TaskHandler()},
                 {"Topic", new TopicHandler()},
-                {"TopicList", new TopicListHandler()}
+                {"TopicList", new TopicListHandler()},
+                {"GradeStatistics", new GradeStatisticsHandler() }
             };
             Context = new ApplicationContext();
         }
@@ -105,6 +106,10 @@ namespace ViewProcessor
                 com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From TopicList ", con);
                 com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From GradesStatistics ", con);
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From StudentStatistics ", con);
+                com.ExecuteNonQuery();
             }
             SeedViewsTable();
             Context.SaveChanges();
@@ -118,6 +123,14 @@ namespace ViewProcessor
                 DateOfLastProcessedEvent = DateTimeOffset.MinValue,
                 NumberOfProcessedEvent = 0
             });
+            for(int i=4;i<=10;i++)
+                Context.GradesStatistics.Add(new GradeStatistics { Grade = i });
+
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Gabi9", Grade = 10 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Stefan", Grade = 9 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Olea", Grade = 8 });
+
+
             //Context.Views.Add(new View
             //{
             //    ViewName = "Task",

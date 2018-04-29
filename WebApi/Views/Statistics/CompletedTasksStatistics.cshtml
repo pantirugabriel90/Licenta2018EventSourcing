@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Domain.ContextEntities.GradeStatistics>
+
+@{
+    ViewData["Title"] = "CompletedTasksStatistics";
+}
+
+
+
+<h2 style="margin-top:25px;">CompletedTasksStatistics</h2>
+<hr />
+
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompletedTasks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartedTasks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartedTopics)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfReplies)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoggedHOurs)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="table-secondary">
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletedTasks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartedTasks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartedTopics)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfReplies)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggedHOurs)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+

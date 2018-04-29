@@ -18,11 +18,12 @@
 
         @if (User.Identity.IsAuthenticated)
         {
-            <ul class="nav navbar-default btn-group">
-                <li class="nav-item active"> <a asp-area="" asp-controller="Task" asp-action="Index" class="navbar-brand"><button type="button" class="btn">Main Page</button></a></li>
-                <li class="nav-item active"><a asp-area="" asp-controller="Task" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Tasks</button> <span class="sr-only">(current)</span></a></li>
-                <li class="nav-item active mr-auto"><a asp-area="" asp-controller="Topic" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Topics</button> <span class="sr-only">(current)</span></a></li>
-            </ul>
+        <ul class="nav navbar-default btn-group">
+            <li class="nav-item active"> <a asp-area="" asp-controller="Task" asp-action="Index" class="navbar-brand"><button type="button" class="btn">Main Page</button></a></li>
+            <li class="nav-item active mr-auto"><a asp-area="" asp-controller="Statistics" asp-action="CompletedTasksStatistics" class="nav-link"><button type="button" class="btn btn-info">Statistics</button> <span class="sr-only">(current)</span></a></li>
+            <li class="nav-item active"><a asp-area="" asp-controller="Task" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Tasks</button> <span class="sr-only">(current)</span></a></li>
+            <li class="nav-item active mr-auto"><a asp-area="" asp-controller="Topic" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Topics</button> <span class="sr-only">(current)</span></a></li>
+        </ul>
             <ul class="nav navbar-header">
 
                 <li class="nav-item active flex-row-reverse"><div class="nav-item" style="padding-top:14px;">Hello, @User.Identity.Name!<span class="sr-only">(current)</span></div></li>

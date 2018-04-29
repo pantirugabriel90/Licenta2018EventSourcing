@@ -20,6 +20,8 @@ namespace DataLayer
         public DbSet<Event> Events { get; set; }
         public DbSet<Aggregate> Aggregates { get; set; }
         public DbSet<View> Views { get; set; }
+        public DbSet<StudentStatistics> StudentStatistics { get; set; }
+        public DbSet<GradeStatistics> GradesStatistics { get; set; }
 
 
 
