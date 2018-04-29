@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Commands.Task;
+using Services.Queries;
 using Services.Queries.TaskListView;
 using Services.Queries.TaskView;
 using WebApi.Models;
@@ -18,15 +19,17 @@ namespace WebApi.Controllers
     public class TaskController : Controller
     {
         private ISession _session { get; }
+        private IViewSincronizor _viewSincronizor;
 
-        public TaskController(ISession session)
+        public TaskController(ISession session,IViewSincronizor viewSincronizer)
         {
+            _viewSincronizor = viewSincronizer;
             _session = session;
         }
 
         public async Task<ActionResult> Index()
         {
-            var queryHandler = new GetTaskListQueryHandler();
+            var queryHandler = new GetTaskListQueryHandler(_viewSincronizor);
             var result = await queryHandler.HandleAsync(new GetTaskListQuery());
             return View(result.TaskList);
         }
@@ -34,7 +37,7 @@ namespace WebApi.Controllers
        
         public async  Task<ActionResult> Details(Guid id)
         {
-            var queryHandler = new GetTaskQueryHandler();
+            var queryHandler = new GetTaskQueryHandler(_viewSincronizor);
             var result = await queryHandler.HandleAsync(new GetTaskQuery{AggregateId = id});
             return View(result);
         }
@@ -62,7 +65,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> UpdateTask(Guid id)
         {
             ViewBag.AggregateId = id;
-            var queryHandler = new GetTaskQueryHandler();
+            var queryHandler = new GetTaskQueryHandler(_viewSincronizor);
             var task = await queryHandler.HandleAsync(new GetTaskQuery { AggregateId = id });
             var model = new UpdateTaskCommand
             {

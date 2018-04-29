@@ -10,10 +10,16 @@ namespace Services.Queries.TaskView
 {
     public class GetTaskQueryHandler: IQueryHandler<GetTaskQuery, GetTaskQueryResult>
     {
+
+        private IViewSincronizor _viewSincronizer;
+        public GetTaskQueryHandler(IViewSincronizor viewSincronizer)
+        {
+            _viewSincronizer = viewSincronizer;
+        }
         public async Task<GetTaskQueryResult> HandleAsync(GetTaskQuery query)
         {
 
-            ViewSincronizor.Sincornize("Task");
+            _viewSincronizer.Sincornize("Task");
 
             var context = new ApplicationContext();
 

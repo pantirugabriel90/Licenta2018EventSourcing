@@ -11,6 +11,7 @@ using Services.Queries.TopicListView;
 using Services.Queries.TopicView;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Services.Queries;
 
 namespace WebApi.Controllers
 {
@@ -18,15 +19,19 @@ namespace WebApi.Controllers
     public class TopicController : Controller
     {
         private ISession _session { get; }
+        private IViewSincronizor _viewSincronizor;
 
-        public TopicController(ISession session)
+        public TopicController(ISession session, IViewSincronizor viewSincronizer)
         {
+
+            _viewSincronizor = viewSincronizer;
             _session = session;
         }
+
         // GET: Topic
         public async Task<ActionResult> Index()
         {
-            var queryHandler = new GetTopicListQueryHandler();
+            var queryHandler = new GetTopicListQueryHandler(_viewSincronizor);
             var result = await queryHandler.HandleAsync(new GetTopicListQuery());
             return View(result.TopicList);
         }
@@ -35,7 +40,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult>  Details(Guid id)
         {
 
-            var queryHandler = new GetTopicQueryHandler();
+            var queryHandler = new GetTopicQueryHandler(_viewSincronizor);
             var result = await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id });
             return View(result);
         }
@@ -68,7 +73,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> UpdateTopic(Guid id)
         {
             ViewBag.AggregateId = id;
-            var queryHandler = new GetTopicQueryHandler();
+            var queryHandler = new GetTopicQueryHandler(_viewSincronizor);
             var result = await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id });
             var model= new UpdateTopicCommand
             {
@@ -129,7 +134,7 @@ namespace WebApi.Controllers
             ViewBag.ReplyId = replyId;
 
             ViewBag.AggregateId = id;
-            var queryHandler = new GetTopicQueryHandler();
+            var queryHandler = new GetTopicQueryHandler(_viewSincronizor);
             var result = (await queryHandler.HandleAsync(new GetTopicQuery { AggregateId = id })).Replies.FirstOrDefault(r=>r.Id==replyId);
             var model = new UpdateReplyCommand()
             {

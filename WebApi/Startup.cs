@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 using WebApi.Auth;
+using DataLayer.RavenDB;
+using Services.Queries;
 
 namespace WebApi
 {
@@ -43,12 +45,15 @@ namespace WebApi
                 options.LoginPath = "/Authentication/Login/";
                 options.AccessDeniedPath = "/Authentication/Login/";
             });
-
+            services.Configure<RavenSettings>(Configuration.GetSection("Raven"));
+            services.AddSingleton<IDocumentStoreHolder, DocumentStoreHolder>();
+            services.AddSingleton<IViewSincronizor, ViewSincronizor>();
             services.AddScoped<ISession, Session>();
             services.AddSingleton<ICommandSender>(y => y.GetService<Router>());
             services.AddSingleton<IEventPublisher>(y => y.GetService<Router>());
             services.AddSingleton<IHandlerRegistrar>(y => y.GetService<Router>());
-            services.AddSingleton<IEventStore>(y=>new SqlEventStore(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IEventStore>(y=>new RavenEventStore(y.GetService<IDocumentStoreHolder>()));
+            // services.AddSingleton<IEventStore>(y=>new SqlEventStore(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRepository>(y => new Repository(y.GetService<IEventStore>(), y.GetService<IEventPublisher>()));
         }
@@ -60,6 +65,7 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+
             }
             else
             {

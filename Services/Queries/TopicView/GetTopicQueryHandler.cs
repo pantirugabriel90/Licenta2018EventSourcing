@@ -11,9 +11,14 @@ namespace Services.Queries.TopicView
 {
     public class GetTopicQueryHandler : IQueryHandler<GetTopicQuery, GetTopicQueryResult>
     {
+        private IViewSincronizor _viewSincronizer;
+        public GetTopicQueryHandler(IViewSincronizor viewSincronizer)
+        {
+            _viewSincronizer = viewSincronizer;
+        }
         public async Task<GetTopicQueryResult> HandleAsync(GetTopicQuery query)
         {
-            ViewSincronizor.Sincornize("Topic");
+            _viewSincronizer.Sincornize("Topic");
             var context = new ApplicationContext();
             var topic = context.Topics.Include("Replies").FirstOrDefault(t => t.Id == query.AggregateId);
             var result = new GetTopicQueryResult

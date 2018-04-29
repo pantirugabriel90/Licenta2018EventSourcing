@@ -1,7 +1,10 @@
-﻿using DataLayer;
+﻿using CQRSlite.Events;
+using DataLayer;
+using DataLayer.RavenDB;
 using Domain.Views.Entities;
 using EventsConsummer.Handlers;
 using Newtonsoft.Json;
+using Raven.Client.Documents;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -16,8 +19,11 @@ namespace ViewProcessor
         private Dictionary<string, IEventsHandler> ViewHandlers { get; set; }
         private Object _thisLock = new Object();
 
-        public ViewManager()
+        private readonly IDocumentStore store;
+
+        public ViewManager(IDocumentStoreHolder documentStore)
         {
+            this.store = documentStore.Store;
             ViewHandlers = new Dictionary<string, IEventsHandler>
             {
                 {"TaskList", new TaskListHandler()},
@@ -30,7 +36,7 @@ namespace ViewProcessor
 
         public void InterogateDatabase()
         {
-            System.Timers.Timer t = new System.Timers.Timer(1); 
+            System.Timers.Timer t = new System.Timers.Timer(100); 
             t.AutoReset = true;
             t.Elapsed += new System.Timers.ElapsedEventHandler(ProcessEvents);
             t.Start();
@@ -42,37 +48,44 @@ namespace ViewProcessor
 
             lock (_thisLock)
             {
-
-                foreach (var viewHandler in ViewHandlers)
+                var events = GetUnprocessedEvents();
+                foreach (var evnt in events)
                 {
-                    var events = GetUnprocessedEvents(viewHandler.Key);
-                    foreach (var evnt in events)
+                    var eventType = typeof(Event).Assembly.GetType("Domain.Events." + evnt.Type);
+                    var taskCreatedEvent = JsonConvert.DeserializeObject(evnt.Data, eventType);
+
+                    foreach (var viewHandler in ViewHandlers)
                     {
-                            var eventType = typeof(Event).Assembly.GetType("Domain.Events." + evnt.Type);
-                            var taskCreatedEvent = JsonConvert.DeserializeObject(evnt.Data,eventType);
-                            var type = viewHandler.Value.GetType();
-                            var method = type.GetMethods().FirstOrDefault(m =>
-                                m.Name == "Handle" && m.GetParameters().First().ParameterType == eventType);
-                            if (method != null)
-                                method.Invoke(viewHandler.Value, new object[] { taskCreatedEvent });
-
-                        //viewHandler.Value.Handle(taskCreatedEvent);
-                        var view = Context.Views.FirstOrDefault(v => v.ViewName == viewHandler.Key);
-                        view.NumberOfProcessedEvent++;
-                        view.DateOfLastProcessedEvent = DateTimeOffset.Now;
-                        Context.SaveChanges();
+                        
+                        var type = viewHandler.Value.GetType();
+                        var method = type.GetMethods().FirstOrDefault(m =>
+         m.Name == "Handle" && m.GetParameters().First().ParameterType == eventType);
+                        if (method != null)
+                        {
+                            method.Invoke(viewHandler.Value, new object[] { taskCreatedEvent });
+                            //viewHandler.Value.Handle(taskCreatedEvent);
+                        }
                     }
+                    var view = Context.Views.FirstOrDefault();
+                    view.DateOfLastProcessedEvent = DateTimeOffset.Now;
 
+                    view.NumberOfProcessedEvent++;
+                    Context.SaveChanges();
                 }
             }
 
         }
 
-        public List<Event> GetUnprocessedEvents(string viewName)
+        public List<Event> GetUnprocessedEvents()
         {
-            var numberOfProcessedEvents = Context.Views.FirstOrDefault(v => v.ViewName == viewName)?.NumberOfProcessedEvent;
-            var events = Context.Events.OrderBy(e => e.TimeStamp).Skip(numberOfProcessedEvents ?? 0);
-            return events.ToList();
+            var numberOfProcessedEvents = Context.Views.FirstOrDefault()?.NumberOfProcessedEvent;
+            List<Event> events = null;
+            using (var session = this.store.OpenSession())
+            {
+                events = session.Query<Event>().OrderBy(e => e.TimeStamp).Skip(numberOfProcessedEvents ?? 0).ToList();
+            }
+
+            return events;
         }
 
         public void RestoreAllViews()
@@ -99,35 +112,30 @@ namespace ViewProcessor
 
         public void SeedViewsTable()
         {
-
             Context.Views.Add(new View
             {
-                ViewName = "TaskList",
+                ViewName = "ProcessedEvents",
                 DateOfLastProcessedEvent = DateTimeOffset.MinValue,
                 NumberOfProcessedEvent = 0
             });
-            Context.Views.Add(new View
-            {
-                ViewName = "Task",
-                DateOfLastProcessedEvent = DateTimeOffset.MinValue,
-                NumberOfProcessedEvent = 0
-            });
-            Context.Views.Add(new View
-            {
-                ViewName = "TopicList",
-                DateOfLastProcessedEvent = DateTimeOffset.MinValue,
-                NumberOfProcessedEvent = 0
-            });
-            Context.Views.Add(new View
-            {
-                ViewName = "Topic",
-                DateOfLastProcessedEvent = DateTimeOffset.MinValue,
-                NumberOfProcessedEvent = 0
-            });
+            //Context.Views.Add(new View
+            //{
+            //    ViewName = "Task",
+            //    DateOfLastProcessedEvent = DateTimeOffset.MinValue,
+            //    NumberOfProcessedEvent = 0
+            //});
+            //Context.Views.Add(new View
+            //{
+            //    ViewName = "TopicList",
+            //    DateOfLastProcessedEvent = DateTimeOffset.MinValue,
+            //    NumberOfProcessedEvent = 0
+            //});
+            //Context.Views.Add(new View
+            //{
+            //    ViewName = "Topic",
+            //    DateOfLastProcessedEvent = DateTimeOffset.MinValue,
+            //    NumberOfProcessedEvent = 0
+            //});
         }
-
-
-
-
     }
 }
