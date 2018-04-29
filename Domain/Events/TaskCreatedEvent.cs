@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSlite.Events;
-using Domain.Views.Entities;
+using Domain.ContextEntities;
 
 namespace Domain.Events
 {

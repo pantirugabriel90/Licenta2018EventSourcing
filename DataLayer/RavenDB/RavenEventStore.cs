@@ -1,6 +1,6 @@
 ﻿using CQRSlite.Domain;
 using CQRSlite.Events;
-using Domain.Views.Entities;
+using Domain.ContextEntities;
 using Newtonsoft.Json;
 using Raven.Client.Documents;
 using System;
@@ -28,7 +28,7 @@ namespace DataLayer.RavenDB
                 var events = (session.Query<Event>().Where(x => x.AggregateId == aggregateId && x.Version > fromVersion));
 
                  
-                return  events.Select(e => (IEvent)e).ToList();
+                return  events.ToList();
             }
         }
 

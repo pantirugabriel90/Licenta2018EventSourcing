@@ -1,4 +1,4 @@
-﻿using Domain.Views.Entities;
+﻿using Domain.ContextEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.Views.Entities;
+using Domain.ContextEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -15,8 +15,8 @@ namespace DataLayer
         }
         public DbSet<TaskListElement> TaskList { get; set; }
         public DbSet<TopicListElement> TopicList { get; set; }
-        public DbSet<Domain.Views.Entities.Task> Tasks { get; set; }
-        public DbSet<Domain.Views.Entities.Topic> Topics { get; set; }
+        public DbSet<Domain.ContextEntities.Task> Tasks { get; set; }
+        public DbSet<Domain.ContextEntities.Topic> Topics { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Aggregate> Aggregates { get; set; }
         public DbSet<View> Views { get; set; }

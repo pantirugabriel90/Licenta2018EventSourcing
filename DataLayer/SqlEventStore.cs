@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using Domain.Views.Entities;
 using Newtonsoft.Json;
+using Domain.ContextEntities;
 
 namespace DataLayer
 {

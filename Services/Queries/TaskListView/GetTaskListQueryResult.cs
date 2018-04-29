@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Domain.Views.Entities;
+using Domain.ContextEntities;
 
 namespace Services.Queries.TaskListView
 {

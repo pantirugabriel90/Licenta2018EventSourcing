@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Views.Entities
+namespace Domain.ContextEntities
 {
     public class Task
     {

@@ -16,7 +16,7 @@ namespace Services.Queries.TopicListView
         }
         public async Task<GetTopicListQueryResult> HandleAsync(GetTopicListQuery query)
         {
-            _viewSincronizer.Sincornize("TopicList");
+            _viewSincronizer.Sincornize();
 
             var context = new ApplicationContext();
             var result = new GetTopicListQueryResult();

@@ -1,12 +1,12 @@
 ﻿using CQRSlite.Events;
 using DataLayer;
+using Domain.ContextEntities;
 using Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Views.Entities;
 
 namespace EventsConsummer.Handlers
 {

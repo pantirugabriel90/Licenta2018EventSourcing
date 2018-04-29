@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domain.Views.Entities
+namespace Domain.ContextEntities
 {
     public class TaskListElement
     {

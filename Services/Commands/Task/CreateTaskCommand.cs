@@ -1,9 +1,9 @@
 ﻿using CQRSlite.Commands;
+using Domain.ContextEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Domain.Views.Entities;
 
 namespace Services.Commands.Task
 {

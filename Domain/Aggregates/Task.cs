@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSlite.Domain;
+using Domain.ContextEntities;
 using Domain.Events;
-using Domain.Views.Entities;
 
 namespace Domain
 {

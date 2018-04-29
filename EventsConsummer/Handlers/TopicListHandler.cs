@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataLayer;
+using Domain.ContextEntities;
 using Domain.Events;
-using Domain.Views.Entities;
 
 namespace EventsConsummer.Handlers
 {

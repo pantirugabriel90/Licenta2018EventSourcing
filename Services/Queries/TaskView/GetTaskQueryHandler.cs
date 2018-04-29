@@ -19,7 +19,7 @@ namespace Services.Queries.TaskView
         public async Task<GetTaskQueryResult> HandleAsync(GetTaskQuery query)
         {
 
-            _viewSincronizer.Sincornize("Task");
+            _viewSincronizer.Sincornize();
 
             var context = new ApplicationContext();
 

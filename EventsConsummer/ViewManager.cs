@@ -1,7 +1,7 @@
 ﻿using CQRSlite.Events;
 using DataLayer;
 using DataLayer.RavenDB;
-using Domain.Views.Entities;
+using Domain.ContextEntities;
 using EventsConsummer.Handlers;
 using Newtonsoft.Json;
 using Raven.Client.Documents;

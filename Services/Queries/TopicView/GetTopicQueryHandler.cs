@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer;
-using Domain.Views.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Queries.TopicView
@@ -18,7 +17,7 @@ namespace Services.Queries.TopicView
         }
         public async Task<GetTopicQueryResult> HandleAsync(GetTopicQuery query)
         {
-            _viewSincronizer.Sincornize("Topic");
+            _viewSincronizer.Sincornize();
             var context = new ApplicationContext();
             var topic = context.Topics.Include("Replies").FirstOrDefault(t => t.Id == query.AggregateId);
             var result = new GetTopicQueryResult
