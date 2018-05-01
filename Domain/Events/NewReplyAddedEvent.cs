@@ -16,8 +16,10 @@ namespace Domain.Events
         {
                 
         }
+
         public NewReplyAddedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
+
         }
 
         public NewReplyAddedEvent(Guid aggregateId, Type aggregateType, string issuedBy,string content,DateTime date,Guid replyId) : base(aggregateId, aggregateType, issuedBy)

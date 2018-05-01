@@ -67,5 +67,17 @@ namespace EventsConsummer.Handlers
         public void Handle(NewReplyAddedEvent message)
         {
         }
+
+        public void Handle(TaskCompletedEvent message)
+        {
+        }
+
+        public void Handle(TaskReopenEvent message)
+        {
+        }
+
+        public void Handle(TaskHoursLoggedEvent message)
+        {
+        }
     }
 }

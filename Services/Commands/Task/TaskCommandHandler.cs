@@ -10,7 +10,7 @@ using Services.Queries;
 
 namespace Services.Commands.Task
 {
-    public class TaskCommandHandler : ICommandHandler<CreateTaskCommand>, ICommandHandler<UpdateTaskCommand>, ICommandHandler<ChangeTaskStatusCommand>
+    public class TaskCommandHandler : ICommandHandler<CreateTaskCommand>, ICommandHandler<UpdateTaskCommand>, ICommandHandler<ChangeTaskStatusCommand>, ICommandHandler<LogTaskHoursCommand>
     {
         private readonly ISession _session;
         private SemaphoreSlim _semaphoreSlim;
@@ -57,7 +57,22 @@ namespace Services.Commands.Task
             try
             {
                 var task = await _session.Get<Domain.Task>(command.AggregateId);
-                task.CompleteTask(command.AggregateId, command.IssuedBy);
+                task.ChangeTaskStatus(command.AggregateId, command.IssuedBy);
+                await _session.Commit();
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+
+        public async System.Threading.Tasks.Task Handle(LogTaskHoursCommand command)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var task = await _session.Get<Domain.Task>(command.AggregateId);
+                task.LogHours(command.AggregateId, command.IssuedBy, command.HoursLoggged);
                 await _session.Commit();
             }
             finally

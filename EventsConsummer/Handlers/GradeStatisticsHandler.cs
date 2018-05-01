@@ -70,5 +70,17 @@ namespace EventsConsummer.Handlers
             gradeStatistics.NumberOfReplies = students.Average(ss => ss.NumberOfReplies);
             _context.SaveChanges();
         }
+
+        public void Handle(TaskCompletedEvent message)
+        {
+        }
+
+        public void Handle(TaskReopenEvent message)
+        {
+        }
+
+        public void Handle(TaskHoursLoggedEvent message)
+        {
+        }
     }
 }
