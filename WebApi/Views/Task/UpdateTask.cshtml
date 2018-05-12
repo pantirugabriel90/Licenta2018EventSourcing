@@ -41,27 +41,14 @@
                 <input asp-for="Hours" class="form-control" />
                 <span asp-validation-for="Hours" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LoggedHours" class="control-label"></label>
-                <input asp-for="LoggedHours" class="form-control" />
-                <span asp-validation-for="LoggedHours" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="CompletedStatus" /> @Html.DisplayNameFor(model => model.CompletedStatus)
-                    </label>
-                </div>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

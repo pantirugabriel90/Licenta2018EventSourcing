@@ -21,10 +21,9 @@ namespace Domain
 
         public Task(Guid aggregateId, string issuedBy, string title, string content, List<Tag> tags, double hours)
         {
-
             Id = aggregateId;
-
             ApplyChange(new TaskCreatedEvent(aggregateId, GetType(), issuedBy, title, content, hours,tags));
+            Completed = false;
         }
 
         public void UpdateTaskDetails(Guid aggregateId, string issuedBy, string title, string description, List<Tag> tags, double hours, double loggedHours,bool completedStatus)
@@ -32,16 +31,13 @@ namespace Domain
             ApplyChange(new TaskUpdatedEvent(aggregateId, GetType(), issuedBy, title, description, hours,loggedHours,completedStatus ));
         }
 
-        public void ChangeTaskStatus(Guid aggregateId, string issuedBy)
+        public void ReopenTask(Guid aggregateId, string issuedBy)
         {
-            if (Completed)
-            {
-                ApplyChange(new TaskCompletedEvent(aggregateId, GetType(), issuedBy));
-            }
-            else
-            {
                 ApplyChange(new TaskReopenEvent(aggregateId, GetType(), issuedBy));
-            }
+        }
+        public void CompleteTask(Guid aggregateId, string issuedBy)
+        {
+                ApplyChange(new TaskCompletedEvent(aggregateId, GetType(), issuedBy));
         }
 
         public void LogHours(Guid aggregateId, string issuedBy, double hours)

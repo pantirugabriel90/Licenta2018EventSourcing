@@ -52,6 +52,24 @@ namespace EventsConsummer.Handlers
             Context.SaveChanges();
         }
 
+        public void Handle(TaskCompletedEvent message)
+        {
+            var taskElement = Context.TaskList.FirstOrDefault(t => t.Id == message.AggregateId);
+
+            if (taskElement != null)
+                taskElement.Completed = true;
+            Context.SaveChanges();
+        }
+
+        public void Handle(TaskReopenEvent message)
+        {
+            var taskElement = Context.TaskList.FirstOrDefault(t => t.Id == message.AggregateId);
+
+            if (taskElement != null)
+                taskElement.Completed = false;
+            Context.SaveChanges();
+        }
+
         public void Handle(TopicCreatedEvent message)
         {
         }
@@ -67,15 +85,7 @@ namespace EventsConsummer.Handlers
         public void Handle(NewReplyAddedEvent message)
         {
         }
-
-        public void Handle(TaskCompletedEvent message)
-        {
-        }
-
-        public void Handle(TaskReopenEvent message)
-        {
-        }
-
+        
         public void Handle(TaskHoursLoggedEvent message)
         {
         }

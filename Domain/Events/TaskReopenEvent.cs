@@ -14,6 +14,7 @@ namespace Domain.Events
 
         public TaskReopenEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
+            Type = GetType().Name;
         }
     }
 }

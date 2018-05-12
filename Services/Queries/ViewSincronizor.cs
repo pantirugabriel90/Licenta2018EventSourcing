@@ -34,7 +34,7 @@ namespace Services.Queries
 
             while (!_sincronized)
             {
-                if (_stopWatch.Elapsed.Seconds > 2)
+                if (_stopWatch.Elapsed.Seconds > 3)
                     throw new Exception("Unable to sincronize views with events");
 
                 CheckSincronization();
@@ -45,7 +45,7 @@ namespace Services.Queries
         {
             using (var session = _store.OpenSession())
             {
-               var  numberOfEvents = session.Query<Event>().Count();
+               var  numberOfEvents = session.Query<Event>().Customize(x => x.WaitForNonStaleResults()).Count();
 
                 var NumberOfProcessedEvent =
                     _context.Views.FirstOrDefault().NumberOfProcessedEvent;

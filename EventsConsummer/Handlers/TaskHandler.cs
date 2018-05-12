@@ -76,6 +76,40 @@ namespace EventsConsummer.Handlers
             }
         }
 
+        public void Handle(TaskCompletedEvent message)
+        {
+            var task = Context.Tasks.FirstOrDefault(t => t.Id == message.AggregateId);
+
+            try
+            {
+                task.CompletedStatus = true;
+
+                Context.SaveChanges();
+
+            }
+            catch
+            {
+                throw new Exception("Aggregate not found");
+            }
+        }
+
+        public void Handle(TaskReopenEvent message)
+        {
+            var task = Context.Tasks.FirstOrDefault(t => t.Id == message.AggregateId);
+
+            try
+            {
+                task.CompletedStatus = false;
+
+                Context.SaveChanges();
+
+            }
+            catch
+            {
+                throw new Exception("Aggregate not found");
+            }
+        }
+
         public void Handle(TopicCreatedEvent message)
         {
         }
@@ -91,17 +125,22 @@ namespace EventsConsummer.Handlers
         public void Handle(NewReplyAddedEvent message)
         {
         }
-
-        public void Handle(TaskCompletedEvent message)
-        {
-        }
-
-        public void Handle(TaskReopenEvent message)
-        {
-        }
-
+        
         public void Handle(TaskHoursLoggedEvent message)
         {
+            var task = Context.Tasks.FirstOrDefault(t => t.Id == message.AggregateId);
+
+            try
+            {
+                task.LoggedHours = task.LoggedHours + message.Hours;
+
+                Context.SaveChanges();
+
+            }
+            catch
+            {
+                throw new Exception("Aggregate not found");
+            }
         }
     }
 }

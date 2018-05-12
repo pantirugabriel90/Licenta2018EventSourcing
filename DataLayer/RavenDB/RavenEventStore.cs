@@ -25,7 +25,7 @@ namespace DataLayer.RavenDB
         {
             using (var session = this.store.OpenSession())
             {
-                var events = (session.Query<Event>().Where(x => x.AggregateId == aggregateId && x.Version > fromVersion));
+                var events = (session.Query<Event>().Customize(x => x.WaitForNonStaleResults()).Where(x => x.AggregateId == aggregateId && x.Version > fromVersion));
 
                  
                 return  events.ToList();

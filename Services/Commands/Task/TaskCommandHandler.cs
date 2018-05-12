@@ -10,7 +10,7 @@ using Services.Queries;
 
 namespace Services.Commands.Task
 {
-    public class TaskCommandHandler : ICommandHandler<CreateTaskCommand>, ICommandHandler<UpdateTaskCommand>, ICommandHandler<ChangeTaskStatusCommand>, ICommandHandler<LogTaskHoursCommand>
+    public class TaskCommandHandler : ICommandHandler<CreateTaskCommand>, ICommandHandler<UpdateTaskCommand>, ICommandHandler<CompleteTaskCommand>, ICommandHandler<LogTaskHoursCommand>, ICommandHandler<ReopenTaskCommand>
     {
         private readonly ISession _session;
         private SemaphoreSlim _semaphoreSlim;
@@ -23,7 +23,7 @@ namespace Services.Commands.Task
 
         public async System.Threading.Tasks.Task Handle(CreateTaskCommand command)
         {
-            await _semaphoreSlim.WaitAsync();
+             _semaphoreSlim.Wait();
             try
             {
                 var task = new Domain.Task(Guid.NewGuid(), command.IssuedBy, command.Title, command.Content, command.Tags, command.Hours);
@@ -51,13 +51,28 @@ namespace Services.Commands.Task
             }
         }
 
-        public async System.Threading.Tasks.Task Handle(ChangeTaskStatusCommand command)
+        public async System.Threading.Tasks.Task Handle(CompleteTaskCommand command)
         {
             await _semaphoreSlim.WaitAsync();
             try
             {
                 var task = await _session.Get<Domain.Task>(command.AggregateId);
-                task.ChangeTaskStatus(command.AggregateId, command.IssuedBy);
+                task.CompleteTask(command.AggregateId, command.IssuedBy);
+                await _session.Commit();
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+
+        public async System.Threading.Tasks.Task Handle(ReopenTaskCommand command)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var task = await _session.Get<Domain.Task>(command.AggregateId);
+                task.ReopenTask(command.AggregateId, command.IssuedBy);
                 await _session.Commit();
             }
             finally
@@ -72,7 +87,7 @@ namespace Services.Commands.Task
             try
             {
                 var task = await _session.Get<Domain.Task>(command.AggregateId);
-                task.LogHours(command.AggregateId, command.IssuedBy, command.HoursLoggged);
+                task.LogHours(command.AggregateId, command.IssuedBy, command.HoursLogged);
                 await _session.Commit();
             }
             finally
@@ -80,5 +95,6 @@ namespace Services.Commands.Task
                 _semaphoreSlim.Release();
             }
         }
+
     }
 }

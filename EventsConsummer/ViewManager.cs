@@ -83,7 +83,7 @@ namespace ViewProcessor
             List<Event> events = null;
             using (var session = this.store.OpenSession())
             {
-                events = session.Query<Event>().OrderBy(e => e.TimeStamp).Skip(numberOfProcessedEvents ?? 0).ToList();
+                events = session.Query<Event>().Customize(x => x.WaitForNonStaleResults()).OrderBy(e => e.TimeStamp).Skip(numberOfProcessedEvents ?? 0).ToList();
             }
 
             return events;

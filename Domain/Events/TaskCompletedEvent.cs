@@ -14,6 +14,7 @@ namespace Domain.Events
 
         public TaskCompletedEvent(Guid aggregateId, Type aggregateType, string issuedBy) : base(aggregateId, aggregateType, issuedBy)
         {
+            Type = GetType().Name;
         }
     }
 }

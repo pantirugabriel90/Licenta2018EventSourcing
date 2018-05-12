@@ -53,17 +53,19 @@
 
                         &emsp;
 
-                        <a asp-action="ChangeTaskStatus" asp-route-id="@item.Id">
-                            @if (!item.Completed)
-                            {
+                        @if (!item.Completed)
+                        {
+                            <a asp-action="CompleteTask" asp-route-id="@item.Id" asp-route-redirectToTaskList ="true">
                                 <button type="button" class="btn btn-success task-list-button">Complete Task</button>
-                            }
-                            else
-                            {
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="ReopenTask" asp-route-id="@item.Id"  asp-route-redirectToTaskList ="true">
                                 <button type="button" class="btn btn-secondary task-list-button">Reopen Task</button>
-                            }
-                        </a>
-                        
+                            </a>
+                        }
+
                     </td>
                 </tr>
             }
@@ -90,7 +92,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @if (item.IssuedBy!=null && User.Identity.Name != item.IssuedBy)
+            @if (item.IssuedBy != null && User.Identity.Name != item.IssuedBy)
             {
                 <tr class="table-secondary">
                     <td>

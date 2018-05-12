@@ -80,33 +80,70 @@ namespace WebApi.Controllers
             return View(model);
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateTask(UpdateTaskCommand updateTask)
+        public async Task<ActionResult> UpdateTask(UpdateTaskCommand updateTaskCommand)
         {
             if (ModelState.IsValid)
             {
-                updateTask.IssuedBy = User.Identity.Name;
+                updateTaskCommand.IssuedBy = User.Identity.Name;
                 var taskCommandHandler = new TaskCommandHandler(_session);
-                await taskCommandHandler.Handle(updateTask);
+                await taskCommandHandler.Handle(updateTaskCommand);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(updateTask);
+            return View(updateTaskCommand);
 
         }
 
-        public async Task<ActionResult> ChangeTaskStatus(Guid id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LogHours(LogTaskHoursCommand logHoursCommand)
         {
+            if (ModelState.IsValid)
+            {
+                logHoursCommand.IssuedBy = User.Identity.Name;
+                var taskCommandHandler = new TaskCommandHandler(_session);
+                await taskCommandHandler.Handle(logHoursCommand);
+            }
 
-            var taskCommandHandler = new TaskCommandHandler(_session);
-            var taskCreatedCommand = new ChangeTaskStatusCommand(id, User.Identity.Name);
-            await taskCommandHandler.Handle(taskCreatedCommand);
-            
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), new { id = logHoursCommand.AggregateId });
+
         }
-        
+
+
+
+        public async Task<ActionResult> CompleteTask(Guid id, bool redirectToTaskList)
+        {
+            var taskCommandHandler = new TaskCommandHandler(_session);
+            var taskCreatedCommand = new CompleteTaskCommand(id, User.Identity.Name);
+            await taskCommandHandler.Handle(taskCreatedCommand);
+
+            if (redirectToTaskList)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Details), new { id });
+
+        }
+
+        public async Task<ActionResult> ReopenTask(Guid id, bool redirectToTaskList)
+        {
+            var taskCommandHandler = new TaskCommandHandler(_session);
+            var taskCreatedCommand = new ReopenTaskCommand(id, User.Identity.Name);
+            await taskCommandHandler.Handle(taskCreatedCommand);
+
+            if (redirectToTaskList)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Details), new { id });
+
+        }
+
+
         public ActionResult Delete(Guid id)
         {
             return RedirectToAction(nameof(Index));

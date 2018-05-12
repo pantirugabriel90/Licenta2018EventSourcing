@@ -90,7 +90,7 @@
         </tbody>
 
     </table>
-    @if (Model.Replies.Count() > 2)
+    @if (Model.Replies.Count() > 12)
     {
         <a asp-action="AddNewReply" asp-route-id="@topicId"><button type="button" class="btn btn-primary float-right" style="margin-bottom:5%;">New Reply</button></a>
     }

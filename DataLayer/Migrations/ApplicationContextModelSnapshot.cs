@@ -64,7 +64,7 @@ namespace DataLayer.Migrations
 
                     b.Property<double>("Grade");
 
-                    b.Property<double>("LoggedHOurs");
+                    b.Property<double>("LoggedHours");
 
                     b.Property<double>("NumberOfReplies");
 
@@ -108,7 +108,7 @@ namespace DataLayer.Migrations
 
                     b.Property<double>("Grade");
 
-                    b.Property<int>("LoggedHours");
+                    b.Property<double>("LoggedHours");
 
                     b.Property<int>("NumberOfReplies");
 

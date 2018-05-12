@@ -48,6 +48,16 @@
         <dd>
             @Html.DisplayFor(model => model.CompletedStatus)
         </dd>
+        <dd>
+            <form asp-action="LogHours" class="row">
+
+                <input type="hidden" name="AggregateId" value=@Model.Id />
+                <input name="HoursLogged" type="number" style="width:100px;margin-right:20px;margin-left:15px;" placeholder="0" step="0.01" class="form-control" />
+                <input type="submit" value="Log hours" class="btn btn-secondary" />
+
+            </form>
+        </dd>
+
     </dl>
     @{
         var taskId = Model.Id;
@@ -56,18 +66,25 @@
     @if (User.Identity.Name == Model.IssuedBy)
     {
         <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
-        <a asp-action="UpdateTask" asp-route-id="@taskId"><button type="button" class="btn btn-primary">Update Task</button></a>
-        <a asp-action="ChangeTaskStatus" asp-route-id="@taskId">
-            <button type="button" class="btn btn-primary">
-                @if (!Model.CompletedStatus)
-                {
-                    @:Mark completed
-}
-                else
-                {
-                    @:Reopen task
-}
-            </button>
-        </a>
+        @if (!Model.CompletedStatus)
+        {
+            <a asp-action="CompleteTask" asp-route-id="@taskId">
+
+                <button type="button" class="btn btn-success task-list-button" asp-route-redirectToTaskList ="false">
+                    Mark completed
+                </button>
+            </a>
+        }
+        else
+        {
+            <a asp-action="ReopenTask" asp-route-id="@taskId" asp-route-redirectToTaskList ="false">
+
+                <button type="button" class="btn btn-secondary task-list-button">
+
+                    Reopen task
+                </button>
+            </a>
+
+        }
     }
 </div>

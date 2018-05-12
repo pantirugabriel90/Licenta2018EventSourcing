@@ -13,6 +13,6 @@ namespace Domain.ContextEntities
         public int NumberOfReplies { get; set; }
         public int StartedTasks { get; set; }
         public int CompletedTasks { get; set; }
-        public int LoggedHours { get; set; }
+        public double LoggedHours { get; set; }
     }
 }

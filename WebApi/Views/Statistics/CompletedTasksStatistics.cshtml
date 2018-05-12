@@ -5,6 +5,10 @@
 }
 
 
+@{
+    await Html.RenderPartialAsync("_statisticsNavBar");
+}
+
 
 <h2 style="margin-top:25px;">CompletedTasksStatistics</h2>
 <hr />
@@ -29,36 +33,34 @@
                 @Html.DisplayNameFor(model => model.NumberOfReplies)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LoggedHOurs)
+                @Html.DisplayNameFor(model => model.LoggedHours)
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr class="table-secondary">
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">
+            <tr class="table-secondary">
+                <td>
                     @Html.DisplayFor(modelItem => item.Grade)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletedTasks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartedTasks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartedTopics)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfReplies)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoggedHOurs)
-            </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompletedTasks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartedTasks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartedTopics)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfReplies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoggedHours)
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

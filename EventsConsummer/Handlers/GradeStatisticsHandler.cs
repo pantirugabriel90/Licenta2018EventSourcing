@@ -73,14 +73,38 @@ namespace EventsConsummer.Handlers
 
         public void Handle(TaskCompletedEvent message)
         {
+            var grade = _context.StudentStatistics.FirstOrDefault(sg => sg.Username == message.IssuedBy).Grade;
+            var students = _context.StudentStatistics.Where(ss => ss.Grade == grade);
+            var student = students.FirstOrDefault(ss => ss.Username == message.IssuedBy);
+            student.CompletedTasks = student.CompletedTasks + 1;
+
+            var gradeStatistics = _context.GradesStatistics.FirstOrDefault(gs => gs.Grade == grade);
+            gradeStatistics.CompletedTasks = students.Average(ss => ss.CompletedTasks);
+            _context.SaveChanges();
         }
 
         public void Handle(TaskReopenEvent message)
         {
+            var grade = _context.StudentStatistics.FirstOrDefault(sg => sg.Username == message.IssuedBy).Grade;
+            var students = _context.StudentStatistics.Where(ss => ss.Grade == grade);
+            var student = students.FirstOrDefault(ss => ss.Username == message.IssuedBy);
+            student.CompletedTasks = student.CompletedTasks - 1;
+
+            var gradeStatistics = _context.GradesStatistics.FirstOrDefault(gs => gs.Grade == grade);
+            gradeStatistics.CompletedTasks = students.Average(ss => ss.CompletedTasks);
+            _context.SaveChanges();
         }
 
         public void Handle(TaskHoursLoggedEvent message)
         {
+            var grade = _context.StudentStatistics.FirstOrDefault(sg => sg.Username == message.IssuedBy).Grade;
+            var students = _context.StudentStatistics.Where(ss => ss.Grade == grade);
+            var student = students.FirstOrDefault(ss => ss.Username == message.IssuedBy);
+            student.LoggedHours = student.LoggedHours + message.Hours;
+
+            var gradeStatistics = _context.GradesStatistics.FirstOrDefault(gs => gs.Grade == grade);
+            gradeStatistics.LoggedHours = students.Average(ss => ss.LoggedHours);
+            _context.SaveChanges();
         }
     }
 }
