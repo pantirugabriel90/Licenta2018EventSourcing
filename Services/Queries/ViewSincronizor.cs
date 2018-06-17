@@ -32,7 +32,7 @@ namespace Services.Queries
         {
             _stopWatch = Stopwatch.StartNew();
 
-            while (!_sincronized)
+            while (!_sincronized || _stopWatch.Elapsed.Milliseconds < 50)
             {
                 if (_stopWatch.Elapsed.Seconds > 3)
                     throw new Exception("Unable to sincronize views with events");

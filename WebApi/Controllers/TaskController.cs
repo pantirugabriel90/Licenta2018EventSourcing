@@ -19,7 +19,7 @@ namespace WebApi.Controllers
     public class TaskController : Controller
     {
         private ISession _session { get; }
-        private IViewSincronizor _viewSincronizor;
+        private IViewSincronizor _viewSincronizor { get; }
 
         public TaskController(ISession session,IViewSincronizor viewSincronizer)
         {

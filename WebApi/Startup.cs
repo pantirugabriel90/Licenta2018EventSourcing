@@ -44,6 +44,7 @@ namespace WebApi
             {
                 options.LoginPath = "/Authentication/Login/";
                 options.AccessDeniedPath = "/Authentication/Login/";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
             });
             services.Configure<RavenSettings>(Configuration.GetSection("Raven"));
             services.AddSingleton<IDocumentStoreHolder, DocumentStoreHolder>();
