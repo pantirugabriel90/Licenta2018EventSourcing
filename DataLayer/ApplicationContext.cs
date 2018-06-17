@@ -22,6 +22,8 @@ namespace DataLayer
         public DbSet<View> Views { get; set; }
         public DbSet<StudentStatistics> StudentStatistics { get; set; }
         public DbSet<GradeStatistics> GradesStatistics { get; set; }
+        public DbSet<TemporalStatistics> TemporalStatistics { get; set; }
+
 
 
 

@@ -25,7 +25,7 @@
                 @if (User.Identity.IsAuthenticated)
     {
             <ul class=" nav navbar-default btn-group mr-auto">
-                <li class="nav-item active"><a asp-area="" asp-controller="Statistics" asp-action="LoggedHours" class="nav-link"><button type="button" class="btn btn-info">Statistics</button> <span class="sr-only">(current)</span></a></li>
+                <li class="nav-item active"><a asp-area="" asp-controller="Statistics" asp-action="LoggedHoursByGrade" class="nav-link"><button type="button" class="btn btn-info">Statistics</button> <span class="sr-only">(current)</span></a></li>
                 <li class="nav-item active"><a asp-area="" asp-controller="Task" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Tasks</button> <span class="sr-only">(current)</span></a></li>
                 <li class="nav-item active"><a asp-area="" asp-controller="Topic" asp-action="Index" class="nav-link"><button type="button" class="btn btn-info">Topics</button> <span class="sr-only">(current)</span></a></li>
             </ul>

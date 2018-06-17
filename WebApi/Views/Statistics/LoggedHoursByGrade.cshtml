@@ -1,16 +1,18 @@
-﻿@model WebApi.Models.Statistics.StartedTopics
+﻿@model WebApi.Models.Statistics.LoggedHoursByGrade
 
 @{
-    ViewData["Title"] = "StartedTopics";
-    var grades = Model.StartedTopicsByGrade.Keys.ToArray();
-    var nrOfStartedTopics = Model.StartedTopicsByGrade.Values.ToArray();
+    ViewData["Title"] = "LoggedHours";
+    var grades = Model.LoggedHours.Keys.ToArray();
+    var nrOfLoggedHours = Model.LoggedHours.Values.ToArray();
 }
 
 @{
     await Html.RenderPartialAsync("_statisticsNavBar");
 }
 
-<h2 style="margin-top:35px; margin-bottom:35px;">Started Topics</h2>
+<h2 style="margin-top:35px; margin-bottom:35px;">Logged Hours</h2>
+
+
 
 <div style="width:1100px;height:550px;">
     <canvas id="myChart"></canvas>
@@ -22,8 +24,8 @@
         data: {
             labels: @Html.Raw(Json.Serialize(grades)),
             datasets: [{
-                label: '# of Started Topics',
-                data: @Html.Raw(Json.Serialize(nrOfStartedTopics)),
+                label: '# of Logged Hours',
+                data: @Html.Raw(Json.Serialize(nrOfLoggedHours)),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

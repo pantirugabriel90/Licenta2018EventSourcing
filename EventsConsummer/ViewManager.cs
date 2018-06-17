@@ -30,7 +30,8 @@ namespace ViewProcessor
                 {"Task", new TaskHandler()},
                 {"Topic", new TopicHandler()},
                 {"TopicList", new TopicListHandler()},
-                {"GradeStatistics", new GradeStatisticsHandler() }
+                {"GradeStatistics", new GradeStatisticsHandler() },
+                {"TemporalStatistics", new TemporalStatisticsHandler() }
             };
             Context = new ApplicationContext();
         }
@@ -109,6 +110,8 @@ namespace ViewProcessor
                 com = new SqlCommand("Delete From GradesStatistics ", con);
                 com.ExecuteNonQuery();
                 com = new SqlCommand("Delete From StudentStatistics ", con);
+                com.ExecuteNonQuery();
+                com = new SqlCommand("Delete From TemporalStatistics ", con);
                 com.ExecuteNonQuery();
             }
             SeedViewsTable();

@@ -1,16 +1,16 @@
-﻿@model WebApi.Models.Statistics.StartedTasks
+﻿@model WebApi.Models.Statistics.NumberOfRepliesByGrade
 
 @{
-    ViewData["Title"] = "StartedTasks";
-    var grades = Model.StartedTasksByGrade.Keys.ToArray();
-    var nrOfStartedTasks = Model.StartedTasksByGrade.Values.ToArray();
+    ViewData["Title"] = "NumberOfReplies";
+    var grades = Model.NumberOfReplies.Keys.ToArray();
+    var nrOfReplies = Model.NumberOfReplies.Values.ToArray();
 }
 
 @{
     await Html.RenderPartialAsync("_statisticsNavBar");
 }
 
-<h2 style="margin-top:35px; margin-bottom:35px;">Started Tasks</h2>
+<h2 style="margin-top:35px; margin-bottom:35px;">Number of Replies</h2>
 
 <div style="width:1100px;height:550px;">
     <canvas id="myChart"></canvas>
@@ -22,8 +22,8 @@
         data: {
             labels: @Html.Raw(Json.Serialize(grades)),
             datasets: [{
-                label: '# of Started Tasks',
-                data: @Html.Raw(Json.Serialize(nrOfStartedTasks)),
+                label: '# of Replies',
+                data: @Html.Raw(Json.Serialize(nrOfReplies)),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
