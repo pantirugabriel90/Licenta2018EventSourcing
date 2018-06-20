@@ -7,6 +7,6 @@ namespace Services.Queries.TemporalStatisticsView
 {
     public class GetTemporalStatisticsQueryResult: IQueryResult
     {
-        public List<TemporalStatistics> TopicList { get; set; }
+        public List<TemporalStatistics> TemporalStatistics { get; set; }
     }
 }

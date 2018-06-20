@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CQRSlite.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Services.Queries;
+using Services.Queries.TemporalStatisticsView;
 using Services.Queries.TopicView;
 using WebApi.Models.Statistics;
 using WebApi.Models.TemporalStatistics;
@@ -92,13 +93,13 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> LoggedHoursTemporalStatistics()
         {
-            var queryHandler = new GetStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
+            var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
             var loggedHours = new LoggedHoursByDate();
 
-            foreach (var row in result.GradesStatistics)
+            foreach (var row in result.TemporalStatistics)
             {
-                loggedHours.LoggedHours.Add(new DateTime(), row.LoggedHours);
+                loggedHours.LoggedHours.Add(row.Date, row.LoggedHours);
             }
 
             return View(loggedHours);
@@ -106,13 +107,13 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> CompletedTasksTemporalStatistics()
         {
-            var queryHandler = new GetStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
+            var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
             var completedTasks = new CompletedTasksByDate();
 
-            foreach (var row in result.GradesStatistics)
+            foreach (var row in result.TemporalStatistics)
             {
-                completedTasks.CompletedTasks.Add(new DateTime(), row.CompletedTasks);
+                completedTasks.CompletedTasks.Add(row.Date, row.CompletedTasks);
             }
 
             return View(completedTasks);
@@ -120,13 +121,13 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> NumberOfRepliesTemporalStatistics()
         {
-            var queryHandler = new GetStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
+            var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
             var numberOfReplies = new NumberOfRepliesByDate();
 
-            foreach (var row in result.GradesStatistics)
+            foreach (var row in result.TemporalStatistics)
             {
-                numberOfReplies.NumberOfReplies.Add(new DateTime(), row.NumberOfReplies);
+                numberOfReplies.NumberOfReplies.Add(row.Date, row.NumberOfReplies);
             }
 
             return View(numberOfReplies);
@@ -134,13 +135,13 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> StartedTasksTemporalStatistics()
         {
-            var queryHandler = new GetStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
+            var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
             var startedTasks = new StartedTasksByDate();
 
-            foreach (var row in result.GradesStatistics)
+            foreach (var row in result.TemporalStatistics)
             {
-                startedTasks.StartedTasks.Add(new DateTime(), row.StartedTasks);
+                startedTasks.StartedTasks.Add(row.Date, row.StartedTasks);
             }
 
             return View(startedTasks);
@@ -148,13 +149,13 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> StartedTopicsTemporalStatistics()
         {
-            var queryHandler = new GetStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
+            var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
             var startedTopics = new StartedTopicsByDate();
 
-            foreach (var row in result.GradesStatistics)
+            foreach (var row in result.TemporalStatistics)
             {
-                startedTopics.StartedTopics.Add(new DateTime(), row.StartedTopics);
+                startedTopics.StartedTopics.Add(row.Date, row.StarterTopics);
             }
 
             return View(startedTopics);

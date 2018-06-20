@@ -7,9 +7,12 @@
 }
 
 @{
-    await Html.RenderPartialAsync("_statisticsNavBar");
+    await Html.RenderPartialAsync("_viewType");
 }
 
+@{
+    await Html.RenderPartialAsync("_averageStatistics");
+}
 <h2 style="margin-top:35px; margin-bottom:35px;">Started Topics</h2>
 
 <div style="width:1100px;height:550px;">

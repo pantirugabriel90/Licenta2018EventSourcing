@@ -1,7 +1,79 @@
-﻿
+﻿@model WebApi.Models.TemporalStatistics.StartedTasksByDate
+
 @{
     ViewData["Title"] = "StartedTasksTemporalStatistics";
 }
 
-<h2>StartedTasksTemporalStatistics</h2>
+@{
+    ViewData["Title"] = "CompletedTasks";
+    var dates = Model.StartedTasks.Keys.Select(d => d.ToString("yyyy-MM-dd")).ToArray();
+    var values = Model.StartedTasks.Values.ToArray();
+}
 
+
+
+@{
+    await Html.RenderPartialAsync("_viewType");
+}
+
+@{
+    await Html.RenderPartialAsync("_myTemporalStatistics");
+}
+
+<h2>Started Tasks Temporal Statistics</h2>
+
+<div style="width:1100px;height:550px;">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+    var dates = @Html.Raw(Json.Serialize(dates));
+    var values = @Html.Raw(Json.Serialize(values));
+
+    var newDates = new Array();
+
+    dates.forEach(function (entry) {
+        newDates.push(new Date(entry))
+
+    });
+    function newDate(days) {
+        return moment().add(days, 'd').toDate();
+    }
+    function randomScalingFactor(days) {
+        return Math.random() * (30 - 2) + 2;
+    }
+
+    function newDateString(days) {
+        return moment().add(days, 'd').format(timeFormat);
+    }
+    var timeFormat = 'MM/DD/YYYY HH:mm';
+
+    var color = Chart.helpers.color;
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(this.ctx, {
+        type: 'line',
+        data: {
+            labels: newDates
+            ,
+            datasets: [{
+                label: 'My First dataset',
+                fill: false,
+                data: values,
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        format: 'timeFormat'
+                    }
+                }]
+            }
+        }
+    });
+</script>
