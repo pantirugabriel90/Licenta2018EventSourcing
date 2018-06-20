@@ -130,8 +130,12 @@ namespace ViewProcessor
                 Context.GradesStatistics.Add(new GradeStatistics { Grade = i });
 
             Context.StudentStatistics.Add(new StudentStatistics { Username = "Gabi9", Grade = 10 });
-            Context.StudentStatistics.Add(new StudentStatistics { Username = "Stefan", Grade = 9 });
-            Context.StudentStatistics.Add(new StudentStatistics { Username = "Olea", Grade = 8 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Daniel", Grade = 9 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Alexandra", Grade = 8 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Olea", Grade = 7 });
+            Context.StudentStatistics.Add(new StudentStatistics { Username = "Lulu", Grade = 6 });
+
+
 
 
             //Context.Views.Add(new View

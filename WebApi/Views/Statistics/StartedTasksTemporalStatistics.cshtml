@@ -16,15 +16,22 @@
     await Html.RenderPartialAsync("_viewType");
 }
 
-@{
-    await Html.RenderPartialAsync("_myTemporalStatistics");
-}
-
 <h2>Started Tasks Temporal Statistics</h2>
 
-<div style="width:1100px;height:550px;">
-    <canvas id="myChart"></canvas>
-</div>
+<table>
+    <tr>
+        <td>
+            <div style="width:1100px;height:550px;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </td>
+        <td>
+            @{
+                await Html.RenderPartialAsync("_myTemporalStatistics");
+            }
+        </td>
+    </tr>
+</table>
 
 <script>
     var dates = @Html.Raw(Json.Serialize(dates));

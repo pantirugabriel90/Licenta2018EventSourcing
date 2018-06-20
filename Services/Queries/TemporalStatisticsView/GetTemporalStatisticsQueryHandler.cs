@@ -21,7 +21,7 @@ namespace Services.Queries.TemporalStatisticsView
 
             var context = new ApplicationContext();
             var result = new GetTemporalStatisticsQueryResult();
-            result.TemporalStatistics = context.TemporalStatistics.OrderByDescending(t => t.Date).ToList();
+            result.TemporalStatistics = context.TemporalStatistics.Where(t=>t.Username==query.Username).OrderByDescending(t => t.Date).ToList();
             return result;
         }
     }

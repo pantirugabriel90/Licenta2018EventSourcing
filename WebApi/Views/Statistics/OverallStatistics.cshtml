@@ -1,40 +1,30 @@
-﻿@model WebApi.Models.Statistics.StartedTopicsByGrade
+﻿@model WebApi.Models.OverallStatistics
 
 @{
-    ViewData["Title"] = "StartedTopics";
-    var grades = Model.StartedTopics.Keys.ToArray();
-    var nrOfStartedTopics = Model.StartedTopics.Values.ToArray();
+    ViewData["Title"] = "CompletedTasks";
+    var labels = Model.Statistics.Keys.ToArray();
+    var values = Model.Statistics.Values.ToArray();
 }
 
 @{
     await Html.RenderPartialAsync("_viewType");
 }
 
-<h2 style="margin-top:35px; margin-bottom:35px;">Started Topics</h2>
 
-<table>
-    <tr>
-        <td>
-            <div style="width:1100px;height:550px;">
-                <canvas id="myChart"></canvas>
-            </div>
-        </td>
-        <td>
-            @{
-                await Html.RenderPartialAsync("_averageStatistics");
-            }
-        </td>
-    </tr>
-</table>
+<h2 style="margin-top:35px; margin-bottom:35px;">Completed Tasks</h2>
+
+<div style="width:1100px;height:550px;">
+    <canvas id="myChart"></canvas>
+</div>
 <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: @Html.Raw(Json.Serialize(grades)),
+            labels: @Html.Raw(Json.Serialize(labels)),
             datasets: [{
-                label: '# of Started Topics',
-                data: @Html.Raw(Json.Serialize(nrOfStartedTopics)),
+                label: 'Overall statistics',
+                data: @Html.Raw(Json.Serialize(values)),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

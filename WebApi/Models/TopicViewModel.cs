@@ -11,7 +11,7 @@ namespace WebApplication3.Models
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public List<ReplyViewModel> Replies { get; set; }
+       // public List<ReplyViewModel> Replies { get; set; }
         public string IssuedBy { get; set; }
     }
 }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using CQRSlite.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Services.Queries;
+using Services.Queries.OverallStatistics;
 using Services.Queries.TemporalStatisticsView;
 using Services.Queries.TopicView;
+using WebApi.Models;
 using WebApi.Models.Statistics;
 using WebApi.Models.TemporalStatistics;
 
@@ -27,7 +29,8 @@ namespace WebApi.Controllers
             var result = await queryHandler.HandleAsync(new GetStatisticsQuery());
             var loggedHours = new LoggedHoursByGrade();
 
-            foreach (var row in result.GradesStatistics) {
+            foreach (var row in result.GradesStatistics)
+            {
                 loggedHours.LoggedHours.Add(row.Grade, row.LoggedHours);
             }
 
@@ -94,7 +97,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> LoggedHoursTemporalStatistics()
         {
             var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery(User.Identity.Name));
             var loggedHours = new LoggedHoursByDate();
 
             foreach (var row in result.TemporalStatistics)
@@ -108,7 +111,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> CompletedTasksTemporalStatistics()
         {
             var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery(User.Identity.Name));
             var completedTasks = new CompletedTasksByDate();
 
             foreach (var row in result.TemporalStatistics)
@@ -122,7 +125,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> NumberOfRepliesTemporalStatistics()
         {
             var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery(User.Identity.Name));
             var numberOfReplies = new NumberOfRepliesByDate();
 
             foreach (var row in result.TemporalStatistics)
@@ -136,7 +139,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> StartedTasksTemporalStatistics()
         {
             var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery(User.Identity.Name));
             var startedTasks = new StartedTasksByDate();
 
             foreach (var row in result.TemporalStatistics)
@@ -150,7 +153,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> StartedTopicsTemporalStatistics()
         {
             var queryHandler = new GetTemporalStatisticsQueryHandler(_viewSincronizor);
-            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery());
+            var result = await queryHandler.HandleAsync(new GetTemporalStatisticsQuery(User.Identity.Name));
             var startedTopics = new StartedTopicsByDate();
 
             foreach (var row in result.TemporalStatistics)
@@ -161,5 +164,23 @@ namespace WebApi.Controllers
             return View(startedTopics);
         }
 
+        public async Task<IActionResult> OverallStatistics()
+        {
+            var queryHandler = new GetOverallStatisticsQueryHandler(_viewSincronizor);
+            var result = await queryHandler.HandleAsync(new GetOverallStatisticsQuery(User.Identity.Name));
+            var model = new OverallStatistics();
+
+            model.Statistics = new Dictionary<string, double> {
+                { "Started topics", result.StudentStatistics.StarterTopics },
+                { "Number of replies", result.StudentStatistics.NumberOfReplies },
+                { "Started tasks", result.StudentStatistics.StartedTasks },
+                { "Completed tasks", result.StudentStatistics.StartedTasks},
+                { "Logged hours",result.StudentStatistics.LoggedHours%10}
+            };
+
+            return View(model);
+        }
+
     }
+
 }
