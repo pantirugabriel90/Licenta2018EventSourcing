@@ -1,7 +1,7 @@
 ﻿@model WebApi.Models.Statistics.StartedTopicsByGrade
 
 @{
-    ViewData["Title"] = "StartedTopics";
+    ViewData["Title"] = "Started topics by grade";
     var grades = Model.StartedTopics.Keys.ToArray();
     var nrOfStartedTopics = Model.StartedTopics.Values.ToArray();
 }

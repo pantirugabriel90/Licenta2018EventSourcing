@@ -1,7 +1,7 @@
 ﻿@model WebApi.Models.Statistics.CompletedTasksByGrade
 
 @{
-    ViewData["Title"] = "CompletedTasks";
+    ViewData["Title"] = "Completed tasks by grade";
     var grades = Model.CompletedTasks.Keys.ToArray();
     var nrOfcompletedTasks = Model.CompletedTasks.Values.ToArray();
 }

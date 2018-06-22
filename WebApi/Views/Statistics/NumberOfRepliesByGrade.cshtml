@@ -1,7 +1,7 @@
 ﻿@model WebApi.Models.Statistics.NumberOfRepliesByGrade
 
 @{
-    ViewData["Title"] = "NumberOfReplies";
+    ViewData["Title"] = "Number of replies by grade";
     var grades = Model.NumberOfReplies.Keys.ToArray();
     var nrOfReplies = Model.NumberOfReplies.Values.ToArray();
 }

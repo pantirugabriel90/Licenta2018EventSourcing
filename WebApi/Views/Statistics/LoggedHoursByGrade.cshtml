@@ -1,7 +1,7 @@
 ﻿@model WebApi.Models.Statistics.LoggedHoursByGrade
 
 @{
-    ViewData["Title"] = "LoggedHours";
+    ViewData["Title"] = "Logged hours by grade";
     var grades = Model.LoggedHours.Keys.ToArray();
     var nrOfLoggedHours = Model.LoggedHours.Values.ToArray();
 }

@@ -1,7 +1,7 @@
 ﻿@model WebApi.Models.Statistics.StartedTasksByGrade
 
 @{
-    ViewData["Title"] = "StartedTasks";
+    ViewData["Title"] = "Started tasks by grade";
     var grades = Model.StartedTasks.Keys.ToArray();
     var nrOfStartedTasks = Model.StartedTasks.Values.ToArray();
 }
