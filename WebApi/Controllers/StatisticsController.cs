@@ -174,8 +174,8 @@ namespace WebApi.Controllers
                 { "Started topics", result.StudentStatistics.StarterTopics },
                 { "Number of replies", result.StudentStatistics.NumberOfReplies },
                 { "Started tasks", result.StudentStatistics.StartedTasks },
-                { "Completed tasks", result.StudentStatistics.StartedTasks},
-                { "Logged hours",result.StudentStatistics.LoggedHours%10}
+                { "Completed tasks", result.StudentStatistics.CompletedTasks},
+                { "Logged hours",result.StudentStatistics.LoggedHours}
             };
 
             return View(model);
